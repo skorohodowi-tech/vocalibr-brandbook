@@ -1,0 +1,3923 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Vocalibr · Brand System v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" />
+<style>
+  :root {
+    --orange-primary: #ff6b35;
+    --orange-light: #ff9a6c;
+    --orange-dark: #cc4a1a;
+    --orange-tint-10: rgba(255,107,53,.10);
+    --orange-tint-20: rgba(255,107,53,.20);
+
+    --black: #0a0a0a;
+    --dark-1: #111111;
+    --dark-2: #1a1a1a;
+    --dark-3: #222222;
+    --dark-4: #2a2a2a;
+    --gray-1: #404040;
+    --gray-2: #707070;
+    --gray-3: #a0a0a0;
+    --gray-4: #c8c8c8;
+    --gray-5: #e8e8e8;
+    --white: #f8f8f8;
+
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    --col: minmax(0, 1fr);
+    --pad-x: clamp(20px, 4vw, 64px);
+    --pad-y: clamp(80px, 10vw, 160px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-weight: 400;
+    background: var(--white);
+    color: var(--black);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--orange-primary); color: var(--white); }
+
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+  /* ─── Sections ─────────────────────────────────────── */
+  .section {
+    padding: var(--pad-y) var(--pad-x);
+    position: relative;
+  }
+  .section--dark { background: var(--black); color: var(--white); }
+  .section--dark-1 { background: var(--dark-1); color: var(--white); }
+  .section--dark-2 { background: var(--dark-2); color: var(--white); }
+  .section--light { background: var(--white); color: var(--black); }
+  .section--bone { background: #f1eee9; color: var(--black); }
+
+  .container { max-width: 1440px; margin: 0 auto; }
+
+  /* ─── Section labels ───────────────────────────────── */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 32px;
+    color: var(--gray-2);
+  }
+  .section--dark .eyebrow,
+  .section--dark-1 .eyebrow,
+  .section--dark-2 .eyebrow { color: var(--gray-3); }
+  .eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: currentColor;
+    opacity: .5;
+  }
+  .eyebrow .num {
+    color: var(--orange-primary);
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(36px, 5.5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+    text-wrap: balance;
+  }
+  .section-lede {
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 300;
+    line-height: 1.45;
+    max-width: 720px;
+    margin: 0 0 80px;
+    color: inherit;
+    opacity: .85;
+    text-wrap: pretty;
+  }
+
+  /* ─── Top nav ──────────────────────────────────────── */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10,10,10,.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    color: var(--white);
+  }
+  .topnav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 14px var(--pad-x);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .topnav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .topnav-brand .voc { color: var(--white); }
+  .topnav-brand .alibr { color: rgba(255,255,255,.28); }
+  .topnav-meta {
+    margin-left: auto;
+    display: flex;
+    gap: 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-3);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .topnav-meta a:hover { color: var(--orange-primary); }
+  @media (max-width: 720px) {
+    .topnav-meta { display: none; }
+  }
+
+  /* ─── Hero ─────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    padding: 120px var(--pad-x) var(--pad-y);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--black);
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at 70% 40%, #000 30%, transparent 75%);
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-3);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    position: relative;
+  }
+  .hero-meta b { color: var(--white); font-weight: 500; display: block; margin-top: 6px; font-family: var(--sans); font-size: 14px; letter-spacing: 0; text-transform: none; }
+  @media (max-width: 720px) { .hero-meta { grid-template-columns: 1fr 1fr; } }
+
+  .hero-title {
+    font-size: clamp(64px, 14vw, 220px);
+    font-weight: 500;
+    line-height: .92;
+    letter-spacing: -0.05em;
+    margin: 0;
+    position: relative;
+  }
+  .hero-title .voc { color: var(--white); }
+  .hero-title .alibr { color: rgba(255,255,255,.22); }
+  .hero-title .dot {
+    color: var(--orange-primary);
+  }
+  .hero-sub {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    position: relative;
+    margin-top: 64px;
+  }
+  .hero-sub .col {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--gray-4);
+    max-width: 480px;
+  }
+  .hero-sub .col strong { color: var(--white); font-weight: 500; }
+  @media (max-width: 720px) { .hero-sub { grid-template-columns: 1fr; gap: 24px; } }
+
+  .hero-mark {
+    position: absolute;
+    right: var(--pad-x);
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(180px, 22vw, 360px);
+    aspect-ratio: 1/1;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) { .hero-mark { display: none; } }
+
+  /* ─── Core mark SVG ────────────────────────────────── */
+  .vmark {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .vmark rect { fill: none; }
+  .vmark .dot { fill: var(--orange-primary); }
+
+  /* ─── Wordmark ─────────────────────────────────────── */
+  .vword {
+    font-family: var(--sans);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  /* ─── Color tokens ─────────────────────────────────── */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+  }
+  .section--dark .swatch-grid,
+  .section--dark-1 .swatch-grid,
+  .section--dark-2 .swatch-grid {
+    background: var(--dark-4);
+    border-color: var(--dark-4);
+  }
+  .swatch {
+    background: var(--white);
+    padding: 24px 24px 20px;
+    cursor: pointer;
+    transition: transform .2s ease;
+    position: relative;
+    color: var(--black);
+  }
+  .section--dark .swatch,
+  .section--dark-1 .swatch,
+  .section--dark-2 .swatch {
+    background: var(--dark-1);
+    color: var(--white);
+  }
+  .swatch:hover { z-index: 2; }
+  .swatch-chip {
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin-bottom: 16px;
+    border: 1px solid rgba(0,0,0,.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .section--dark .swatch-chip,
+  .section--dark-1 .swatch-chip,
+  .section--dark-2 .swatch-chip {
+    border-color: rgba(255,255,255,.06);
+  }
+  .swatch-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    color: var(--gray-2);
+    margin-bottom: 4px;
+  }
+  .section--dark .swatch-name,
+  .section--dark-1 .swatch-name,
+  .section--dark-2 .swatch-name { color: var(--gray-3); }
+  .swatch-hex {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .swatch-hex .copy-state {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--orange-primary);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .swatch.copied .copy-state { opacity: 1; }
+  .swatch-use {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--gray-2);
+    font-weight: 300;
+  }
+  .section--dark .swatch-use,
+  .section--dark-1 .swatch-use,
+  .section--dark-2 .swatch-use { color: var(--gray-4); }
+
+  /* category headers in color section */
+  .swatch-category {
+    grid-column: 1 / -1;
+    background: transparent;
+    padding: 0 0 8px;
+    border-bottom: 1px solid currentColor;
+    opacity: 1;
+    margin-top: 32px;
+    cursor: default;
+    color: inherit;
+  }
+  .section--dark .swatch-category { background: transparent; color: var(--white); }
+  .swatch-category:first-child { margin-top: 0; }
+  .swatch-category-title {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .swatch-category-title .num {
+    color: var(--orange-primary);
+    font-weight: 500;
+  }
+  .swatch-category-title .label {
+    flex: 1;
+    color: inherit;
+    font-weight: 500;
+  }
+  .swatch-category-title .meta {
+    color: var(--gray-2);
+    font-size: 11px;
+  }
+
+  /* ─── Type specimen ────────────────────────────────── */
+  .type-hero {
+    border-top: 1px solid var(--gray-5);
+    padding: 64px 0;
+  }
+  .section--dark .type-hero,
+  .section--dark-1 .type-hero { border-color: var(--dark-4); }
+  .type-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 200px;
+    gap: 48px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--gray-5);
+    align-items: baseline;
+  }
+  .section--dark .type-row,
+  .section--dark-1 .type-row { border-color: var(--dark-4); }
+  .type-row:last-child { border-bottom: 0; }
+  .type-row .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gray-2);
+  }
+  .type-row .label .name {
+    display: block;
+    font-family: var(--sans);
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: inherit;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .type-row .specimen {
+    font-family: var(--sans);
+    color: inherit;
+  }
+  .type-row .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-2);
+    text-align: right;
+    line-height: 1.7;
+  }
+  .type-row .meta b { color: inherit; font-weight: 500; }
+  @media (max-width: 900px) {
+    .type-row { grid-template-columns: 1fr; gap: 8px; }
+    .type-row .meta { text-align: left; }
+  }
+
+  .type-alphabet {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(48px, 8vw, 120px);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--black);
+    text-wrap: pretty;
+  }
+  .section--dark .type-alphabet { color: var(--white); }
+  .type-alphabet .muted { color: var(--gray-4); }
+  .section--dark .type-alphabet .muted { color: rgba(255,255,255,.22); }
+
+  .weight-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+    margin-top: 64px;
+  }
+  .section--dark .weight-strip,
+  .section--dark-1 .weight-strip { background: var(--dark-4); border-color: var(--dark-4); }
+  .weight-cell {
+    background: var(--white);
+    padding: 32px;
+  }
+  .section--dark .weight-cell,
+  .section--dark-1 .weight-cell { background: var(--dark-1); }
+  .weight-cell .glyph {
+    font-size: 96px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .weight-cell .meta {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-2);
+  }
+  @media (max-width: 720px) { .weight-strip { grid-template-columns: 1fr; } }
+
+  /* ─── Logomark anatomy ─────────────────────────────── */
+  .anatomy {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) { .anatomy { grid-template-columns: 1fr; } }
+
+  .anatomy-canvas {
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    aspect-ratio: 1/1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .anatomy-canvas .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: calc(100%/13) calc(100%/13);
+  }
+  .anatomy-canvas .axis {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .anatomy-mark {
+    position: relative;
+    width: 60%;
+    aspect-ratio: 1/1;
+    z-index: 2;
+  }
+  .anatomy-mark .vmark rect { stroke: var(--white); stroke-width: 1.6; }
+
+  .anatomy-callout {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--orange-primary);
+    pointer-events: none;
+  }
+  .anatomy-callout .line {
+    display: block;
+    height: 1px;
+    background: var(--orange-primary);
+  }
+  .anatomy-callout span { display: block; padding: 4px 0; }
+
+  .anatomy-callouts {
+    position: absolute;
+    inset: 0;
+  }
+
+  .anatomy-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    align-content: start;
+  }
+  .anatomy-spec {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-5);
+  }
+  .section--dark .anatomy-spec,
+  .section--dark-1 .anatomy-spec { border-color: var(--dark-4); }
+  .anatomy-spec .num {
+    font-family: var(--mono);
+    color: var(--orange-primary);
+    font-size: 11px;
+    letter-spacing: .08em;
+    padding-top: 4px;
+  }
+  .anatomy-spec .body strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .anatomy-spec .body {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--gray-2);
+  }
+  .section--dark .anatomy-spec .body,
+  .section--dark-1 .anatomy-spec .body { color: var(--gray-4); }
+  .section--dark .anatomy-spec .body strong,
+  .section--dark-1 .anatomy-spec .body strong { color: var(--white); }
+  .anatomy-spec .body code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--orange-primary);
+    background: var(--orange-tint-10);
+    padding: 1px 6px;
+  }
+
+  /* ─── Mark version switcher ────────────────────────── */
+  .mark-versions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+    margin-top: 64px;
+  }
+  .section--dark .mark-versions,
+  .section--dark-1 .mark-versions { background: var(--dark-4); border-color: var(--dark-4); }
+  .mark-card {
+    padding: 48px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    min-height: 280px;
+  }
+  .mark-card .mark-canvas {
+    width: 96px;
+    aspect-ratio: 1/1;
+  }
+  .mark-card.bg-orange { background: var(--orange-primary); color: var(--white); }
+  .mark-card.bg-dark { background: var(--black); color: var(--white); }
+  .mark-card.bg-dark-1 { background: var(--dark-1); color: var(--white); }
+  .mark-card.bg-light { background: var(--white); color: var(--black); }
+  .mark-card.bg-bone { background: #f1eee9; color: var(--black); }
+  .mark-card .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: auto;
+  }
+  .mark-card .meta b { display: block; font-weight: 500; }
+  .mark-card .meta .name {
+    font-family: var(--sans);
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  @media (max-width: 720px) { .mark-versions { grid-template-columns: 1fr 1fr; } }
+
+  /* ─── Sizing scale ─────────────────────────────────── */
+  .sizing {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+    margin-top: 32px;
+  }
+  .section--dark .sizing,
+  .section--dark-1 .sizing { background: var(--dark-4); border-color: var(--dark-4); }
+  .size-cell {
+    background: var(--white);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 240px;
+    gap: 24px;
+  }
+  .section--dark .size-cell,
+  .section--dark-1 .size-cell { background: var(--dark-1); }
+  .size-cell .holder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .size-cell .meta {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-2);
+    line-height: 1.5;
+  }
+  .section--dark .size-cell .meta,
+  .section--dark-1 .size-cell .meta { color: var(--gray-3); }
+  .size-cell .meta b { display: block; color: inherit; font-family: var(--sans); font-size: 14px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+  .section--dark .size-cell .meta b,
+  .section--dark-1 .size-cell .meta b { color: var(--white); }
+  @media (max-width: 900px) { .sizing { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ─── Wordmark showcase ────────────────────────────── */
+  .wordmark-stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+  }
+  .section--dark .wordmark-stack,
+  .section--dark-1 .wordmark-stack { background: var(--dark-4); border-color: var(--dark-4); }
+  .wm-row {
+    padding: 64px var(--pad-x);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .wm-row.bg-dark { background: var(--black); color: var(--white); }
+  .wm-row.bg-dark-2 { background: var(--dark-2); color: var(--white); }
+  .wm-row.bg-light { background: var(--white); color: var(--black); }
+  .wm-row.bg-bone { background: #f1eee9; color: var(--black); }
+  .wm-display {
+    font-size: clamp(56px, 9vw, 128px);
+  }
+  .wm-row .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: currentColor;
+    opacity: .55;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .wm-row .meta b { display: block; opacity: 1; font-family: var(--sans); font-size: 14px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+  /* ─── Lockup builder ───────────────────────────────── */
+  .builder {
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    color: var(--white);
+    overflow: hidden;
+  }
+  .builder-stage {
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .35s ease;
+    padding: 64px;
+    position: relative;
+  }
+  .builder-stage[data-bg="dark"] { background: var(--black); }
+  .builder-stage[data-bg="dark-1"] { background: var(--dark-1); }
+  .builder-stage[data-bg="dark-2"] { background: var(--dark-2); }
+  .builder-stage[data-bg="light"] { background: var(--white); }
+  .builder-stage[data-bg="bone"] { background: #f1eee9; }
+
+  .builder-controls {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--dark-4);
+    border-top: 1px solid var(--dark-4);
+  }
+  .ctrl-group {
+    background: var(--dark-1);
+    padding: 24px;
+  }
+  .ctrl-group .label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gray-3);
+    margin-bottom: 16px;
+  }
+  .ctrl-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 8px 12px;
+    border: 1px solid var(--dark-4);
+    color: var(--gray-3);
+    background: transparent;
+    transition: all .15s;
+  }
+  .pill:hover { color: var(--white); border-color: var(--gray-1); }
+  .pill[aria-pressed="true"] {
+    background: var(--orange-primary);
+    color: var(--white);
+    border-color: var(--orange-primary);
+  }
+  @media (max-width: 900px) { .builder-controls { grid-template-columns: 1fr 1fr; } }
+
+  /* lockup composition */
+  .lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .lockup[data-layout="vertical"] {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .lockup-mark {
+    aspect-ratio: 1/1;
+    flex-shrink: 0;
+  }
+  .lockup-word {
+    font-family: var(--sans);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+
+  /* ─── Clear space ──────────────────────────────────── */
+  .clearspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .clearspace { grid-template-columns: 1fr; } }
+
+  .clearspace-stage {
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    aspect-ratio: 1/1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .clearspace-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,107,53,.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,107,53,.08) 1px, transparent 1px);
+    background-size: 20% 20%;
+  }
+  .cs-x { /* clear-space frame */
+    position: absolute;
+    border: 1px dashed var(--orange-primary);
+    background: var(--orange-tint-10);
+    inset: 20%;
+  }
+  .cs-x::before, .cs-x::after {
+    content: '';
+    position: absolute;
+    background: var(--orange-tint-20);
+  }
+  .cs-mark {
+    position: relative;
+    width: 60%;
+    aspect-ratio: 1/1;
+    z-index: 2;
+  }
+  .cs-label {
+    position: absolute;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--orange-primary);
+    z-index: 3;
+  }
+  .cs-label.top { top: 8%; left: 50%; transform: translateX(-50%); }
+  .cs-label.right { right: 8%; top: 50%; transform: translateY(-50%) rotate(90deg); transform-origin: right center; }
+
+  /* ─── Do/Don't ─────────────────────────────────────── */
+  .donts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+  }
+  .section--dark .donts,
+  .section--dark-1 .donts { background: var(--dark-4); border-color: var(--dark-4); }
+  .dont-card {
+    background: var(--white);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 320px;
+  }
+  .section--dark .dont-card,
+  .section--dark-1 .dont-card { background: var(--dark-1); }
+  .dont-stage {
+    flex: 1;
+    background: var(--dark-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+  }
+  .dont-stage.bg-orange { background: var(--orange-primary); }
+  .dont-stage.bg-light { background: var(--white); border: 1px solid var(--gray-5); }
+  .dont-stage.bg-bone { background: #f1eee9; }
+  .dont-mark { width: 50%; aspect-ratio: 1/1; }
+  .dont-mark.stretched { transform: scale(1.6, 1) translateX(-12px); transform-origin: center; }
+  .dont-mark.tilted { transform: rotate(15deg); }
+  .dont-mark.gray-dot .dot { fill: var(--gray-3) !important; }
+  .dont-strike {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .dont-strike::before {
+    content: '';
+    position: absolute;
+    width: 140%;
+    height: 1px;
+    background: var(--orange-primary);
+    top: 50%;
+    left: -20%;
+    transform: rotate(-12deg);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.05);
+  }
+  .dont-tag {
+    display: inline-flex;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    padding: 4px 8px;
+    border: 1px solid currentColor;
+    align-self: flex-start;
+  }
+  .dont-tag.no { color: var(--orange-dark); }
+  .dont-tag.yes { color: #2d8c4d; }
+  .dont-card .body strong {
+    font-size: 15px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dont-card .body {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--gray-2);
+  }
+  .section--dark .dont-card .body,
+  .section--dark-1 .dont-card .body { color: var(--gray-4); }
+  .section--dark .dont-card .body strong,
+  .section--dark-1 .dont-card .body strong { color: var(--white); }
+  @media (max-width: 900px) { .donts { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .donts { grid-template-columns: 1fr; } }
+
+  /* ─── Applications ─────────────────────────────────── */
+  .apps {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+  .app-card {
+    background: var(--white);
+    border: 1px solid var(--gray-5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .section--dark .app-card,
+  .section--dark-1 .app-card,
+  .section--dark-2 .app-card {
+    background: var(--dark-1);
+    border-color: var(--dark-4);
+  }
+  .app-card .stage {
+    flex: 1;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    background: var(--dark-2);
+  }
+  .app-card .footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--gray-5);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-2);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .section--dark .app-card .footer,
+  .section--dark-1 .app-card .footer,
+  .section--dark-2 .app-card .footer {
+    border-color: var(--dark-4);
+    color: var(--gray-3);
+  }
+  .app-card .footer b { color: var(--black); font-weight: 500; font-family: var(--sans); font-size: 14px; text-transform: none; letter-spacing: 0; }
+  .section--dark .app-card .footer b,
+  .section--dark-1 .app-card .footer b,
+  .section--dark-2 .app-card .footer b { color: var(--white); }
+
+  .app-favicon { grid-column: span 3; }
+  .app-appicon { grid-column: span 3; }
+  .app-social-square { grid-column: span 3; }
+  .app-social-banner { grid-column: span 3; }
+  .app-navbar { grid-column: span 8; }
+  .app-card-merch { grid-column: span 4; }
+  .app-dashboard { grid-column: span 12; }
+  @media (max-width: 1100px) {
+    .app-favicon, .app-appicon, .app-social-square, .app-social-banner { grid-column: span 6; }
+    .app-navbar { grid-column: span 12; }
+    .app-card-merch { grid-column: span 12; }
+  }
+
+  /* favicon application */
+  .browser-tab {
+    width: 78%;
+    background: var(--dark-1);
+    border-radius: 8px;
+    padding: 10px 8px 0;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .browser-tab .tabbar {
+    display: flex;
+    gap: 4px;
+  }
+  .browser-tab .tab {
+    background: var(--dark-2);
+    color: var(--white);
+    padding: 8px 10px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-family: var(--sans);
+    border: 1px solid var(--dark-4);
+    border-bottom: 0;
+    max-width: 70%;
+  }
+  .browser-tab .tab.inactive { background: transparent; color: var(--gray-3); border-color: transparent; }
+  .browser-tab .tab .fav { width: 14px; height: 14px; flex-shrink: 0; }
+  .browser-tab .tab .x { margin-left: auto; opacity: .4; font-size: 12px; }
+  .browser-tab .body {
+    background: var(--dark-2);
+    height: 28px;
+    border-top: 1px solid var(--dark-4);
+    margin: 0 -8px;
+  }
+  .browser-tab .url-bar {
+    margin: 8px 0 0;
+    height: 22px;
+    background: var(--dark-3);
+    border-radius: 4px;
+    padding: 0 10px;
+    font-size: 9px;
+    color: var(--gray-3);
+    display: flex;
+    align-items: center;
+    font-family: var(--mono);
+  }
+
+  /* iOS app icon */
+  .ios-grid {
+    width: 80%;
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 14px;
+    padding: 14px;
+    background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 100%);
+    border-radius: 32px;
+    border: 1px solid var(--dark-4);
+  }
+  .ios-app {
+    border-radius: 18%;
+    background: var(--dark-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .ios-app.featured {
+    background: var(--black);
+    border: 1px solid var(--orange-primary);
+    box-shadow: 0 4px 24px rgba(255,107,53,.3);
+  }
+  .ios-app.featured .vmark { width: 64%; height: 64%; }
+  .ios-app .label {
+    font-size: 6px;
+    color: var(--gray-3);
+    font-family: var(--sans);
+    text-align: center;
+  }
+
+  /* Social media */
+  .social-square {
+    width: 80%;
+    aspect-ratio: 1/1;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .social-square .vmark { width: 50%; height: 50%; }
+  .social-banner {
+    width: 90%;
+    aspect-ratio: 2/1;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .social-banner .lockup { transform: scale(1); }
+  .social-banner .lockup-mark { width: 64px; height: 64px; }
+  .social-banner .lockup-word { font-size: 56px; }
+  .social-banner .stripe {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: var(--orange-primary);
+  }
+
+  /* Navbar mock */
+  .navbar-mock {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, var(--black) 0%, var(--dark-1) 100%);
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    color: var(--white);
+  }
+  .navbar-mock .bar {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--dark-4);
+  }
+  .navbar-mock .bar .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .navbar-mock .bar .logo .mark { width: 32px; height: 32px; }
+  .navbar-mock .bar .links {
+    display: flex;
+    gap: 24px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gray-3);
+  }
+  .navbar-mock .bar .links span:first-child { color: var(--white); }
+  .navbar-mock .bar .cta {
+    margin-left: auto;
+    background: var(--orange-primary);
+    color: var(--white);
+    padding: 8px 14px;
+    font-size: 12px;
+    font-family: var(--sans);
+    font-weight: 500;
+  }
+  .navbar-mock .hero-sample {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  .navbar-mock .hero-sample h2 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 0 0 12px;
+    max-width: 520px;
+  }
+  .navbar-mock .hero-sample p {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--gray-3);
+    margin: 0;
+    max-width: 360px;
+  }
+  .navbar-mock .voc { color: var(--white); }
+  .navbar-mock .alibr { color: rgba(255,255,255,.28); }
+
+  /* business card */
+  .bcard-stack {
+    width: 86%;
+    aspect-ratio: 1.7/1;
+    background: var(--white);
+    color: var(--black);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 18px 40px rgba(0,0,0,.5);
+    transform: rotate(-2deg);
+  }
+  .bcard-stack .top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .bcard-stack .top .vmark { width: 28px; height: 28px; }
+  .bcard-stack .info {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--gray-1);
+    line-height: 1.5;
+  }
+  .bcard-stack .info b { color: var(--black); font-weight: 500; display: block; font-size: 13px; }
+
+  /* dashboard mock */
+  .dash {
+    width: 100%;
+    height: 100%;
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    color: var(--white);
+    overflow: hidden;
+  }
+  .dash-side {
+    background: var(--dark-1);
+    border-right: 1px solid var(--dark-4);
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .dash-side .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--dark-4);
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .dash-side .brand .vmark { width: 28px; height: 28px; }
+  .dash-side .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--gray-3);
+  }
+  .dash-side .nav .item {
+    padding: 8px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dash-side .nav .item.active {
+    background: var(--orange-tint-10);
+    color: var(--orange-primary);
+  }
+  .dash-side .nav .item .ico {
+    width: 14px; height: 14px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+  }
+  .dash-main {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+  }
+  .dash-main .topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--dark-4);
+  }
+  .dash-main .topbar h3 {
+    margin: 0;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .dash-main .topbar .badge {
+    margin-left: auto;
+    background: var(--orange-tint-10);
+    color: var(--orange-primary);
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    padding: 4px 8px;
+  }
+  .dash-stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .dash-stat {
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    padding: 14px 16px;
+  }
+  .dash-stat .l {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-3);
+    margin-bottom: 8px;
+  }
+  .dash-stat .v {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .dash-stat .delta { font-size: 11px; color: var(--orange-primary); margin-top: 4px; font-family: var(--mono); }
+  .dash-chart {
+    flex: 1;
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    padding: 18px 20px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .dash-chart h4 {
+    margin: 0;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .dash-chart .chart {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    min-height: 60px;
+  }
+  .dash-chart .bar {
+    flex: 1;
+    background: var(--gray-1);
+    border-top: 2px solid var(--gray-2);
+  }
+  .dash-chart .bar.featured {
+    background: var(--orange-tint-20);
+    border-top-color: var(--orange-primary);
+  }
+
+  /* ─── Component preview ────────────────────────────── */
+  .components {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+  }
+  .section--dark .components,
+  .section--dark-1 .components { background: var(--dark-4); border-color: var(--dark-4); }
+  .comp-cell {
+    background: var(--white);
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 240px;
+  }
+  .section--dark .comp-cell,
+  .section--dark-1 .comp-cell { background: var(--dark-1); }
+  .comp-cell .l {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-2);
+  }
+  .section--dark .comp-cell .l,
+  .section--dark-1 .comp-cell .l { color: var(--gray-3); }
+  .comp-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
+  .btn {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 18px;
+    letter-spacing: -0.01em;
+    transition: all .15s;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--orange-primary); color: var(--white); }
+  .btn-primary:hover { background: var(--orange-light); }
+  .btn-secondary { background: transparent; color: var(--white); border-color: var(--gray-1); }
+  .btn-secondary:hover { border-color: var(--white); }
+  .btn-ghost { background: transparent; color: var(--white); }
+  .btn-ghost:hover { color: var(--orange-primary); }
+  .section--light .btn-secondary { color: var(--black); border-color: var(--gray-5); }
+  .section--light .btn-secondary:hover { border-color: var(--black); }
+  .section--light .btn-ghost { color: var(--black); }
+
+  .input {
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 10px 14px;
+    background: transparent;
+    color: inherit;
+    border: 1px solid var(--gray-5);
+    width: 100%;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .section--dark .input,
+  .section--dark-1 .input { border-color: var(--dark-4); }
+  .input:focus { border-color: var(--orange-primary); }
+  .input::placeholder { color: var(--gray-2); }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 4px 10px;
+    background: var(--orange-tint-10);
+    color: var(--orange-primary);
+    border: 1px solid var(--orange-tint-20);
+  }
+  .tag.neutral { background: transparent; color: inherit; border-color: var(--gray-5); }
+  .section--dark .tag.neutral,
+  .section--dark-1 .tag.neutral { border-color: var(--dark-4); color: var(--gray-3); }
+
+  .fcard {
+    border: 1px solid var(--gray-5);
+    padding: 24px;
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .section--dark .fcard,
+  .section--dark-1 .fcard { border-color: var(--dark-4); }
+  .fcard h5 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .fcard p {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--gray-2);
+  }
+  .section--dark .fcard p,
+  .section--dark-1 .fcard p { color: var(--gray-4); }
+  .fcard .acc {
+    width: 24px;
+    height: 24px;
+    background: var(--orange-tint-10);
+    border: 1px solid var(--orange-tint-20);
+  }
+
+  @media (max-width: 720px) {
+    .components { grid-template-columns: 1fr; }
+    .comp-cell { padding: 32px 24px; }
+  }
+
+  /* ─── SMM kit ──────────────────────────────────────── */
+  .smm {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+  .smm-card {
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .smm-card .stage {
+    flex: 1;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background: linear-gradient(160deg, #2a2a2a, #111111);
+    overflow: hidden;
+    position: relative;
+  }
+  .smm-card .footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--dark-4);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-3);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .smm-card .footer b { color: var(--white); font-weight: 500; font-family: var(--sans); font-size: 14px; text-transform: none; letter-spacing: 0; display: block; }
+
+  .smm-ig-post { grid-column: span 4; }
+  .smm-ig-story { grid-column: span 3; }
+  .smm-x { grid-column: span 5; }
+  .smm-li-banner { grid-column: span 8; }
+  .smm-yt { grid-column: span 4; }
+  .smm-og { grid-column: span 12; }
+  @media (max-width: 1100px) {
+    .smm-ig-post, .smm-ig-story, .smm-x, .smm-li-banner, .smm-yt { grid-column: span 12; }
+  }
+
+  /* IG post 1:1 */
+  .ig-post {
+    width: 88%;
+    max-width: 320px;
+    aspect-ratio: 1/1;
+    background: var(--black);
+    color: var(--white);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 18px 40px rgba(0,0,0,.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .ig-post::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at 70% 40%, #000 30%, transparent 80%);
+  }
+  .ig-post .top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-3);
+    position: relative;
+    z-index: 2;
+  }
+  .ig-post .top .dot-i { width: 5px; height: 5px; background: var(--orange-primary); }
+  .ig-post .headline {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    position: relative;
+    z-index: 2;
+  }
+  .ig-post .headline .acc { color: var(--orange-primary); }
+  .ig-post .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--gray-3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    position: relative;
+    z-index: 2;
+  }
+  .ig-post .vmark { width: 22px; height: 22px; }
+
+  /* IG story 9:16 */
+  .ig-story {
+    width: 60%;
+    max-width: 200px;
+    aspect-ratio: 9/16;
+    background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+    color: var(--white);
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .ig-story .progress {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 18px;
+  }
+  .ig-story .progress span {
+    flex: 1;
+    height: 2px;
+    background: rgba(255,255,255,.25);
+  }
+  .ig-story .progress span.active { background: var(--white); }
+  .ig-story .handle {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: auto;
+  }
+  .ig-story .handle .vmark { width: 18px; height: 18px; }
+  .ig-story .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ig-story .label-tag {
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 4px 8px;
+    background: var(--orange-tint-10);
+    color: var(--orange-primary);
+    border: 1px solid var(--orange-tint-20);
+  }
+  .ig-story .head {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: pretty;
+  }
+  .ig-story .head .acc { color: var(--orange-primary); }
+  .ig-story .meta-bot {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--gray-3);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* X / Twitter */
+  .x-card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--black);
+    border: 1px solid var(--dark-4);
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: var(--white);
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .x-card .head {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .x-card .av {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--dark-2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .x-card .av .vmark { width: 22px; height: 22px; }
+  .x-card .who { flex: 1; min-width: 0; font-family: var(--sans); }
+  .x-card .who .name { font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 4px; }
+  .x-card .who .name .dot-i { width: 4px; height: 4px; border-radius: 50%; background: var(--orange-primary); }
+  .x-card .who .handle { font-size: 12px; color: var(--gray-3); }
+  .x-card .body {
+    margin: 12px 0 14px;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+  }
+  .x-card .body .acc { color: var(--orange-primary); }
+  .x-card .preview {
+    border: 1px solid var(--dark-4);
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 2/1;
+    background: linear-gradient(180deg, var(--dark-1), var(--black));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .x-card .preview .lockup-word { font-size: 38px; }
+  .x-card .preview .lockup-mark { width: 40px; height: 40px; }
+  .x-card .preview .domain {
+    position: absolute;
+    bottom: 8px; left: 12px;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-3);
+  }
+  .x-card .stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-3);
+    letter-spacing: .04em;
+  }
+  .x-card .stats span b { color: var(--white); font-family: var(--sans); font-weight: 500; }
+
+  /* LinkedIn banner */
+  .li-banner {
+    width: 100%;
+    aspect-ratio: 4/1;
+    background: var(--black);
+    color: var(--white);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .li-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 80% 50%, #000 20%, transparent 70%);
+  }
+  .li-banner .left {
+    position: relative;
+    z-index: 2;
+    max-width: 56%;
+  }
+  .li-banner .label-tag {
+    display: inline-flex;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding: 4px 10px;
+    background: var(--orange-tint-10);
+    color: var(--orange-primary);
+    border: 1px solid var(--orange-tint-20);
+    margin-bottom: 14px;
+  }
+  .li-banner .head {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(20px, 2.6vw, 36px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin: 0 0 8px;
+  }
+  .li-banner .head .acc { color: var(--orange-primary); }
+  .li-banner .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--gray-3);
+  }
+  .li-banner .right {
+    position: relative;
+    z-index: 2;
+    text-align: right;
+  }
+  .li-banner .right .vmark { width: 80px; height: 80px; }
+  .li-banner .right .url {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--gray-3);
+    margin-top: 12px;
+  }
+
+  /* YouTube thumbnail 16:9 */
+  .yt-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--black);
+    color: var(--white);
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .yt-thumb::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--orange-tint-20) 0%, transparent 65%);
+    right: -40px;
+    top: -40px;
+    pointer-events: none;
+  }
+  .yt-thumb .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--gray-3);
+    position: relative;
+    z-index: 2;
+  }
+  .yt-thumb .top .ep { color: var(--orange-primary); }
+  .yt-thumb .title {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    position: relative;
+    z-index: 2;
+  }
+  .yt-thumb .title .acc { color: var(--orange-primary); }
+  .yt-thumb .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .yt-thumb .bottom .lockup-word { font-size: 18px; }
+  .yt-thumb .bottom .lockup-mark { width: 22px; height: 22px; }
+  .yt-thumb .duration {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: var(--black);
+    border: 1px solid var(--dark-4);
+    padding: 3px 8px;
+    color: var(--gray-3);
+  }
+
+  /* OG card 1.91:1 */
+  .og-card {
+    width: 100%;
+    aspect-ratio: 1.91/1;
+    background: var(--black);
+    color: var(--white);
+    padding: clamp(28px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0,0,0,.4);
+  }
+  .og-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 80% 30%, #000 20%, transparent 75%);
+  }
+  .og-card .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--gray-3);
+    position: relative;
+    z-index: 2;
+  }
+  .og-card .meta-row .lockup-word { font-size: 22px; }
+  .og-card .meta-row .lockup-mark { width: 28px; height: 28px; }
+  .og-card .head {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: clamp(36px, 5.5vw, 76px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin: 0;
+    max-width: 78%;
+    text-wrap: balance;
+    position: relative;
+    z-index: 2;
+  }
+  .og-card .head .acc { color: var(--orange-primary); }
+  .og-card .head .muted { color: rgba(255,255,255,.32); }
+  .og-card .url-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-3);
+    position: relative;
+    z-index: 2;
+  }
+  .og-card .url-row b { color: var(--white); font-weight: 500; }
+
+  /* ─── Grid & spacing ───────────────────────────────── */
+  .grid-demo {
+    background: var(--dark-1);
+    border: 1px solid var(--dark-4);
+    aspect-ratio: 16/7;
+    position: relative;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  .grid-demo .cols {
+    position: absolute;
+    inset: 32px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+  .grid-demo .cols span {
+    background: var(--orange-tint-10);
+    border: 1px dashed var(--orange-tint-20);
+  }
+  .grid-demo .label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--orange-primary);
+  }
+  .grid-demo .meta {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gray-3);
+  }
+
+  .spacing-strip {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-4);
+    margin-top: 32px;
+  }
+  .space-cell {
+    background: var(--dark-1);
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 160px;
+  }
+  .space-cell .box {
+    background: var(--orange-primary);
+    width: 100%;
+    flex: 1;
+    min-height: 4px;
+    max-height: 64px;
+  }
+  .space-cell .meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: var(--gray-3);
+  }
+  .space-cell .meta b { display: block; color: var(--white); font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: 0; }
+  @media (max-width: 900px) { .spacing-strip { grid-template-columns: repeat(4, 1fr); } }
+
+  .breakpoints {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-4);
+    margin-top: 32px;
+  }
+  .bp-cell {
+    background: var(--dark-1);
+    padding: 24px;
+  }
+  .bp-cell .name {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--orange-primary);
+    margin-bottom: 8px;
+  }
+  .bp-cell .px {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .bp-cell .desc {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--gray-4);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  @media (max-width: 720px) { .breakpoints { grid-template-columns: 1fr 1fr; } }
+
+  /* ─── Iconography ──────────────────────────────────── */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+    background: var(--gray-5);
+    border: 1px solid var(--gray-5);
+    margin-top: 32px;
+  }
+  .ico-cell {
+    background: var(--white);
+    padding: 28px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    min-height: 130px;
+  }
+  .ico-cell svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--black);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ico-cell .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    color: var(--gray-2);
+    text-align: center;
+  }
+  @media (max-width: 900px) { .icon-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .icon-rules {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+  .icon-rule {
+    border: 1px solid var(--gray-5);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .icon-rule .demo {
+    background: var(--white);
+    aspect-ratio: 1.6/1;
+    border: 1px solid var(--gray-5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .icon-rule .demo svg { width: 56px; height: 56px; stroke: var(--black); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-rule .demo .pixel-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,107,53,.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,107,53,.08) 1px, transparent 1px);
+    background-size: 12.5% 12.5%;
+  }
+  .icon-rule .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--orange-primary);
+  }
+  .icon-rule strong {
+    font-size: 15px;
+    font-weight: 500;
+    display: block;
+  }
+  .icon-rule p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--gray-2);
+    font-weight: 300;
+  }
+  @media (max-width: 900px) { .icon-rules { grid-template-columns: 1fr; } }
+
+  /* ─── Photography ──────────────────────────────────── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .photo {
+    aspect-ratio: 4/5;
+    background: var(--dark-2);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--dark-4);
+  }
+  .photo .label {
+    position: absolute;
+    bottom: 12px; left: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gray-3);
+    z-index: 2;
+  }
+  .photo .num {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--orange-primary);
+    z-index: 2;
+  }
+  .photo-1 { grid-column: span 4; aspect-ratio: 4/5; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 70%); }
+  .photo-1::after {
+    content: '';
+    position: absolute; inset: 30% 25% 25% 30%;
+    background: radial-gradient(circle, var(--orange-tint-20) 0%, transparent 60%);
+  }
+  .photo-2 { grid-column: span 4; aspect-ratio: 4/5; background: repeating-linear-gradient(115deg, #1a1a1a 0px, #1a1a1a 18px, #222 18px, #222 19px); }
+  .photo-3 { grid-column: span 4; aspect-ratio: 4/5; background: linear-gradient(180deg, #2a2a2a, #0a0a0a); }
+  .photo-3::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 50% 60%, rgba(255,107,53,.18) 0%, transparent 40%);
+  }
+  .photo-4 { grid-column: span 6; aspect-ratio: 16/9; background: linear-gradient(115deg, #111 0%, #1a1a1a 50%, #0a0a0a 100%); }
+  .photo-4::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(90deg, transparent 60%, var(--orange-tint-20) 100%);
+  }
+  .photo-5 { grid-column: span 6; aspect-ratio: 16/9; background: repeating-radial-gradient(circle at 30% 50%, #1a1a1a 0px, #1a1a1a 8px, #161616 8px, #161616 9px); }
+  @media (max-width: 900px) {
+    .photo-1, .photo-2, .photo-3 { grid-column: span 6; }
+    .photo-4, .photo-5 { grid-column: span 12; }
+  }
+
+  .photo-rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    margin-top: 80px;
+  }
+  .photo-rules h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+  .photo-rules .yes h4 { color: var(--orange-primary); }
+  .photo-rules .no h4 { color: var(--gray-3); }
+  .photo-rules ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .photo-rules li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--gray-4);
+  }
+  .photo-rules li::before {
+    content: '+';
+    font-family: var(--mono);
+    color: var(--orange-primary);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .photo-rules .no li::before { content: '−'; color: var(--gray-2); }
+  @media (max-width: 720px) { .photo-rules { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* ─── Motion ───────────────────────────────────────── */
+  .motion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--dark-4);
+    border: 1px solid var(--dark-4);
+    margin-top: 32px;
+  }
+  .motion-cell {
+    background: var(--dark-1);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 260px;
+  }
+  .motion-cell .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--orange-primary);
+  }
+  .motion-cell strong {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .motion-cell p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--gray-4);
+    font-weight: 300;
+  }
+  .motion-cell .stage {
+    flex: 1;
+    background: var(--black);
+    border: 1px solid var(--dark-4);
+    position: relative;
+    overflow: hidden;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .motion-cell .stage .dot-anim {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--orange-primary);
+  }
+  .motion-cell .stage .bar-anim {
+    width: 60%; height: 2px;
+    background: var(--gray-1);
+    position: relative;
+  }
+  .motion-cell .stage .bar-anim::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; height: 100%;
+    background: var(--orange-primary);
+    animation: voc-bar-fill 2400ms cubic-bezier(.2,.8,.2,1) infinite;
+  }
+  .motion-cell .stage .scale-anim {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--white);
+    border-radius: 8px;
+    position: relative;
+    animation: voc-pop 1800ms cubic-bezier(.34,1.56,.64,1) infinite;
+  }
+  .motion-cell .stage .scale-anim::after {
+    content: ''; position: absolute;
+    top: -2px; right: -2px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--orange-primary);
+  }
+  .motion-cell .stage .slide-anim {
+    width: 60%; height: 12px;
+    background: var(--orange-tint-10);
+    border-left: 2px solid var(--orange-primary);
+    animation: voc-slide 2000ms cubic-bezier(.4,0,.2,1) infinite;
+  }
+  @keyframes voc-bar-fill {
+    0% { width: 0; }
+    60% { width: 100%; }
+    80%, 100% { width: 100%; opacity: 0; }
+  }
+  @keyframes voc-pop {
+    0%, 100% { transform: scale(1); opacity: .85; }
+    50% { transform: scale(1.18); opacity: 1; }
+  }
+  @keyframes voc-slide {
+    0% { transform: translateX(-30%); opacity: 0; }
+    30%, 70% { opacity: 1; transform: translateX(0); }
+    100% { transform: translateX(30%); opacity: 0; }
+  }
+  .motion-table {
+    margin-top: 64px;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--sans);
+  }
+  .motion-table th, .motion-table td {
+    text-align: left;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--dark-4);
+    font-size: 13px;
+  }
+  .motion-table th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gray-3);
+    font-weight: 400;
+    border-bottom-color: var(--dark-4);
+  }
+  .motion-table td.token {
+    font-family: var(--mono);
+    color: var(--orange-primary);
+    font-size: 12px;
+  }
+  .motion-table td.value { font-family: var(--mono); font-size: 12px; color: var(--white); }
+  .motion-table td.use { color: var(--gray-4); font-weight: 300; }
+  @media (max-width: 720px) {
+    .motion-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── Footer ───────────────────────────────────────── */
+  .footer {
+    background: var(--black);
+    color: var(--gray-4);
+    padding: 80px var(--pad-x) 32px;
+  }
+  .footer-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 900px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .footer-inner { grid-template-columns: 1fr; } }
+
+  .footer h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-2);
+    margin: 0 0 16px;
+    font-weight: 400;
+  }
+  .footer .big {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .footer .big .voc { color: var(--white); }
+  .footer .big .alibr { color: rgba(255,255,255,.22); }
+  .footer p { font-size: 13px; line-height: 1.6; margin: 0; max-width: 320px; font-weight: 300; }
+  .footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .footer ul a { font-size: 13px; color: var(--gray-3); }
+  .footer ul a:hover { color: var(--orange-primary); }
+  .footer-bottom {
+    max-width: 1440px;
+    margin: 64px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--dark-4);
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--gray-2);
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── TOP NAV ────────────────────────────────────────────────────── -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="#top" class="topnav-brand" aria-label="Vocalibr">
+      <svg viewBox="0 0 52 52" class="vmark" style="width:24px;height:24px" aria-hidden="true">
+        <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2.5"/>
+        <circle class="dot" cx="42" cy="12" r="6.5"/>
+      </svg>
+      <span><span class="voc">voc</span><span class="alibr">alibr</span></span>
+    </a>
+    <div class="topnav-meta">
+      <a href="#color">01 · Color</a>
+      <a href="#type">02 · Type</a>
+      <a href="#mark">03 · Mark</a>
+      <a href="#wordmark">04 · Wordmark</a>
+      <a href="#lockup">05 · Lockup</a>
+      <a href="#grid">06 · Grid</a>
+      <a href="#icons">07 · Icons</a>
+      <a href="#photo">08 · Photo</a>
+      <a href="#motion">09 · Motion</a>
+      <a href="#donts">10 · Rules</a>
+      <a href="#applications">11 · Apps</a>
+      <a href="#smm">12 · SMM</a>
+      <a href="#components">13 · UI</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ───────────────────────────────────────────────────────── -->
+<section class="hero" id="top" data-screen-label="01 Hero">
+  <div class="hero-grid"></div>
+
+  <div class="hero-meta">
+    <div>Document <b>Brand System v1.0</b></div>
+    <div>Approved <b>03 / 05 / 2026</b></div>
+    <div>Prepared by <b>Іван → Олег</b></div>
+    <div>Asset count <b>14 components</b></div>
+  </div>
+
+  <h1 class="hero-title">
+    <span class="voc">voc</span><span class="alibr">alibr</span>
+  </h1>
+
+  <div class="hero-sub">
+    <div class="col">
+      <strong>UA · </strong>Повна логосистема, кольорова палітра, типографічна шкала і правила застосування. Зібрано як одне джерело істини для дизайнерів і розробників.
+    </div>
+    <div class="col">
+      <strong>EN · </strong>Complete identity system: logomark geometry, wordmark anatomy, color tokens, type scale and application rules. One canonical reference for design and engineering.
+    </div>
+  </div>
+
+  <div class="hero-mark">
+    <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+      <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ff6b35" stroke-width="2"/>
+      <circle class="dot" cx="42" cy="12" r="6.5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ─── COLOR ──────────────────────────────────────────────────────── -->
+<section class="section section--light" id="color" data-screen-label="02 Color">
+  <div class="container">
+    <p class="eyebrow"><span class="num">01 ·</span> Color system / Кольорова система</p>
+    <h2 class="section-title">Палітра побудована на одному акценті<br/>і повній монохромній шкалі.</h2>
+    <p class="section-lede">
+      Помаранчевий — єдиний акцентний колір. На екрані він з'являється максимум в одному елементі, окрім логотипу. Dot у знаку — завжди <code style="font-family:var(--mono);font-size:.92em;color:var(--orange-primary);">#ff6b35</code>, без винятків. Натисніть на токен щоб скопіювати HEX.
+    </p>
+
+    <div class="swatch-grid" id="swatches">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ─── TYPE ───────────────────────────────────────────────────────── -->
+<section class="section section--dark-1" id="type" data-screen-label="03 Type">
+  <div class="container">
+    <p class="eyebrow"><span class="num">02 ·</span> Typography / Типографіка</p>
+    <h2 class="section-title">IBM Plex Sans.<br/>Три ваги, кирилиця нативно.</h2>
+    <p class="section-lede">
+      Гарнітура зі своєю інженерною ясністю. Використовуємо ваги 300 / 400 / 500 — ніколи Bold і вище. IBM Plex Mono для технічних метаданих, токенів і кодових прикладів.
+    </p>
+
+    <div class="type-alphabet">
+      Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp <span class="muted">Аа Бб Вв Гг Ґґ Дд Ее Єє Жж Зз Ии Іі Її Йй Кк Лл</span>
+      <br/>
+      <span style="font-family: var(--mono); font-size: .55em; letter-spacing: 0;">0123456789 — / · @ # &amp; → ←</span>
+    </div>
+
+    <div class="weight-strip">
+      <div class="weight-cell">
+        <div class="glyph" style="font-weight:300;">Va</div>
+        <div class="meta">Light · 300</div>
+      </div>
+      <div class="weight-cell">
+        <div class="glyph" style="font-weight:400;">Va</div>
+        <div class="meta">Regular · 400</div>
+      </div>
+      <div class="weight-cell">
+        <div class="glyph" style="font-weight:500;">Va</div>
+        <div class="meta">Medium · 500</div>
+      </div>
+    </div>
+
+    <div class="type-hero">
+      <div class="type-row">
+        <div class="label">type/display<span class="name">Display</span></div>
+        <div class="specimen" style="font-size:64px; font-weight:500; letter-spacing:-0.03em; line-height:1;">Brand voice, calibrated.</div>
+        <div class="meta">64 / <b>500</b><br/>tracking <b>−3%</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/heading-xl<span class="name">Heading XL</span></div>
+        <div class="specimen" style="font-size:48px; font-weight:500; letter-spacing:-0.03em; line-height:1.05;">Палітра без винятків.</div>
+        <div class="meta">48 / <b>500</b><br/>tracking <b>−3%</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/heading-lg<span class="name">Heading LG</span></div>
+        <div class="specimen" style="font-size:36px; font-weight:500; letter-spacing:-0.02em; line-height:1.1;">Geometry first, taste second.</div>
+        <div class="meta">36 / <b>500</b><br/>tracking <b>−2%</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/heading-md<span class="name">Heading MD</span></div>
+        <div class="specimen" style="font-size:28px; font-weight:500; letter-spacing:-0.02em; line-height:1.15;">Один акцент. Одна крапка.</div>
+        <div class="meta">28 / <b>500</b><br/>tracking <b>−2%</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/body-lg<span class="name">Body LG</span></div>
+        <div class="specimen" style="font-size:16px; font-weight:400; line-height:1.5; max-width:60ch;">Кожен токен системи має точне місце і точне використання. Ця стриманість дає форму бренду — стриманість, а не правила. Колір, тип і простір складаються в один впізнаваний голос.</div>
+        <div class="meta">16 / <b>400</b><br/>tracking <b>0</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/body-md<span class="name">Body MD</span></div>
+        <div class="specimen" style="font-size:14px; font-weight:400; line-height:1.55; max-width:60ch;">For most UI body, pair with line-height 1.55. Use Light (300) only for decorative leads above 18px — never for small text.</div>
+        <div class="meta">14 / <b>400</b><br/>tracking <b>0</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/caption<span class="name">Caption</span></div>
+        <div class="specimen" style="font-size:11px; font-weight:300; letter-spacing:.10em; text-transform:uppercase;">Caption · підпис · category label</div>
+        <div class="meta">11 / <b>300</b><br/>tracking <b>+10%</b></div>
+      </div>
+      <div class="type-row">
+        <div class="label">type/mono<span class="name">Mono</span></div>
+        <div class="specimen" style="font-family:var(--mono); font-size:12px;">orange-primary · #ff6b35 · stroke 2px · radius 10px</div>
+        <div class="meta">12 / <b>400</b><br/>IBM Plex Mono</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOGOMARK ───────────────────────────────────────────────────── -->
+<section class="section section--light" id="mark" data-screen-label="04 Logomark">
+  <div class="container">
+    <p class="eyebrow"><span class="num">03 ·</span> Logomark / Знак</p>
+    <h2 class="section-title">Квадрат із заокругленими<br/>кутами і точкою.</h2>
+    <p class="section-lede">
+      Геометрія знаку зафіксована до пікселя. Базовий фрейм 52×52 — від нього адаптуються всі менші розміри. Dot — це не декорація, а структурний елемент: без неї знак не існує.
+    </p>
+
+    <div class="anatomy">
+      <div class="anatomy-canvas">
+        <div class="grid"></div>
+        <div class="anatomy-mark">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+            <!-- guides -->
+            <line x1="3" y1="0" x2="3" y2="52" stroke="#ff6b35" stroke-width=".25" stroke-dasharray="1 1"/>
+            <line x1="49" y1="0" x2="49" y2="52" stroke="#ff6b35" stroke-width=".25" stroke-dasharray="1 1"/>
+            <line x1="0" y1="12" x2="52" y2="12" stroke="#ff6b35" stroke-width=".25" stroke-dasharray="1 1"/>
+            <line x1="0" y1="42" x2="52" y2="42" stroke="#ff6b35" stroke-width=".25" stroke-dasharray="1 1"/>
+            <text x="44" y="3.5" fill="#ff6b35" font-family="IBM Plex Mono" font-size="2.2">cx 42</text>
+            <text x="44" y="22" fill="#ff6b35" font-family="IBM Plex Mono" font-size="2.2">r 6.5</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="anatomy-list">
+        <div class="anatomy-spec">
+          <div class="num">01</div>
+          <div class="body">
+            <strong>Frame · Базовий фрейм</strong>
+            <code>52 × 52 px</code> · координати rect <code>x=3, y=3, w=46, h=46</code>
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">02</div>
+          <div class="body">
+            <strong>Border radius</strong>
+            <code>10 px</code> на великих розмірах · адаптується вниз до <code>7 px</code> на favicon
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">03</div>
+          <div class="body">
+            <strong>Stroke</strong>
+            <code>2 px</code> на hero · <code>5 px</code> на favicon · масштабується відносно розміру
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">04</div>
+          <div class="body">
+            <strong>Fill</strong>
+            <code>none</code> · знак завжди прозорий усередині, читається тільки по контуру
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">05</div>
+          <div class="body">
+            <strong>Dot · Точка</strong>
+            <code>cx=42, cy=12, r=6.5</code> · колір зафіксовано <code>#ff6b35</code> назавжди
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Versions -->
+    <h3 class="section-title" style="font-size: clamp(28px, 3.5vw, 40px); margin: 120px 0 24px;">Чотири версії знаку</h3>
+    <p class="section-lede" style="margin-bottom: 32px;">
+      Версія підбирається під фон і контекст. Dot ніколи не змінює колір.
+    </p>
+    <div class="mark-versions">
+      <div class="mark-card bg-dark">
+        <div class="mark-canvas">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ff6b35" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="name">Orange</div>
+          stroke <b>#ff6b35</b><br/>dot <b>#ff6b35</b>
+        </div>
+      </div>
+      <div class="mark-card bg-dark-1">
+        <div class="mark-canvas">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="name">Mono dark</div>
+          stroke <b>#ffffff</b><br/>dot <b>#ff6b35</b>
+        </div>
+      </div>
+      <div class="mark-card bg-dark">
+        <div class="mark-canvas">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="rgba(255,255,255,.15)" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="name">Subtle</div>
+          stroke <b>white 15%</b><br/>dot <b>#ff6b35</b>
+        </div>
+      </div>
+      <div class="mark-card bg-light">
+        <div class="mark-canvas">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="#0a0a0a" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <div class="name">Mono light</div>
+          stroke <b>#0a0a0a</b><br/>dot <b>#ff6b35</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sizing -->
+    <h3 class="section-title" style="font-size: clamp(28px, 3.5vw, 40px); margin: 120px 0 24px;">Адаптація розмірів</h3>
+    <p class="section-lede" style="margin-bottom: 32px;">
+      На малих розмірах stroke потовщується, а radius зменшується — інакше знак втрачає вагу і розпадається на пікселі.
+    </p>
+    <div class="sizing">
+      <div class="size-cell">
+        <div class="holder">
+          <svg viewBox="0 0 52 52" class="vmark" style="width:80px;height:80px" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="12" stroke="#0a0a0a" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <b>Hero · 80px+</b>
+          stroke 2 / radius 12
+        </div>
+      </div>
+      <div class="size-cell">
+        <div class="holder">
+          <svg viewBox="0 0 52 52" class="vmark" style="width:48px;height:48px" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="#0a0a0a" stroke-width="2.5"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <b>Navbar · 48px</b>
+          stroke 2.5 / radius 10
+        </div>
+      </div>
+      <div class="size-cell">
+        <div class="holder">
+          <svg viewBox="0 0 52 52" class="vmark" style="width:32px;height:32px" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="9" stroke="#0a0a0a" stroke-width="3"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <b>UI · 32px</b>
+          stroke 3 / radius 9
+        </div>
+      </div>
+      <div class="size-cell">
+        <div class="holder">
+          <svg viewBox="0 0 52 52" class="vmark" style="width:20px;height:20px" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="8" stroke="#0a0a0a" stroke-width="4"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <b>Small · 20px</b>
+          stroke 4 / radius 8
+        </div>
+      </div>
+      <div class="size-cell">
+        <div class="holder">
+          <svg viewBox="0 0 52 52" class="vmark" style="width:16px;height:16px" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="7" stroke="#0a0a0a" stroke-width="5"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <div class="meta">
+          <b>Favicon · 16px</b>
+          stroke 5 / radius 7
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WORDMARK ───────────────────────────────────────────────────── -->
+<section class="section section--bone" id="wordmark" data-screen-label="05 Wordmark">
+  <div class="container">
+    <p class="eyebrow"><span class="num">04 ·</span> Wordmark / Логотип-напис</p>
+    <h2 class="section-title">vocalibr.<br/>Все lowercase, без пробілів.</h2>
+    <p class="section-lede">
+      Wordmark набраний IBM Plex Sans 500 з трекінгом від −2% до −3%. Перші три літери — <strong>voc</strong> — несуть акцент. Решта — <strong>alibr</strong> — приглушені. Це робить голос пізнаваним без дзвону всього слова.
+    </p>
+  </div>
+
+  <div class="wordmark-stack" style="margin-top: 48px;">
+    <div class="wm-row bg-dark">
+      <div class="wm-display vword">
+        <span style="color:#ff6b35;">voc</span><span style="color:rgba(255,255,255,.3);">alibr</span>
+      </div>
+      <div class="meta"><b>Orange dark</b>voc · #ff6b35<br/>alibr · white 30%</div>
+    </div>
+    <div class="wm-row bg-dark-2">
+      <div class="wm-display vword">
+        <span style="color:#ffffff;">voc</span><span style="color:rgba(255,255,255,.28);">alibr</span>
+      </div>
+      <div class="meta"><b>Mono dark</b>voc · #ffffff<br/>alibr · white 28%</div>
+    </div>
+    <div class="wm-row bg-bone">
+      <div class="wm-display vword">
+        <span style="color:#ff6b35;">voc</span><span style="color:#0a0a0a;">alibr</span>
+      </div>
+      <div class="meta"><b>Orange light</b>voc · #ff6b35<br/>alibr · #0a0a0a</div>
+    </div>
+    <div class="wm-row bg-light">
+      <div class="wm-display vword">
+        <span style="color:#0a0a0a;">voc</span><span style="color:#c8c8c8;">alibr</span>
+      </div>
+      <div class="meta"><b>Mono light</b>voc · #0a0a0a<br/>alibr · #c8c8c8</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOCKUPS ────────────────────────────────────────────────────── -->
+<section class="section section--dark" id="lockup" data-screen-label="06 Lockup">
+  <div class="container">
+    <p class="eyebrow"><span class="num">05 ·</span> Lockups / Композиції</p>
+    <h2 class="section-title">Чотири способи<br/>зустріти бренд.</h2>
+    <p class="section-lede">
+      Знак + wordmark, тільки знак, тільки wordmark — перемикайте версії і фони щоб побачити, як працює лок-ап у будь-якому контексті. Gap між знаком і словом — 12–14px, висоти підігнані оптично.
+    </p>
+
+    <div class="builder">
+      <div class="builder-stage" id="builder-stage" data-bg="dark">
+        <div class="lockup" id="builder-lockup" data-layout="horizontal">
+          <div class="lockup-mark" style="width:80px;height:80px;">
+            <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ff6b35" stroke-width="2"/>
+              <circle class="dot" cx="42" cy="12" r="6.5"/>
+            </svg>
+          </div>
+          <div class="lockup-word" style="font-size:80px;">
+            <span style="color:#ff6b35;">voc</span><span style="color:rgba(255,255,255,.3);">alibr</span>
+          </div>
+        </div>
+      </div>
+      <div class="builder-controls">
+        <div class="ctrl-group">
+          <div class="label">Layout</div>
+          <div class="ctrl-row" data-ctrl="layout">
+            <button class="pill" data-val="horizontal" aria-pressed="true">Horizontal</button>
+            <button class="pill" data-val="vertical" aria-pressed="false">Vertical</button>
+            <button class="pill" data-val="mark-only" aria-pressed="false">Mark only</button>
+            <button class="pill" data-val="word-only" aria-pressed="false">Wordmark only</button>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <div class="label">Variant</div>
+          <div class="ctrl-row" data-ctrl="variant">
+            <button class="pill" data-val="orange" aria-pressed="true">Orange</button>
+            <button class="pill" data-val="mono" aria-pressed="false">Mono</button>
+            <button class="pill" data-val="subtle" aria-pressed="false">Subtle</button>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <div class="label">Background</div>
+          <div class="ctrl-row" data-ctrl="bg">
+            <button class="pill" data-val="dark" aria-pressed="true">Black</button>
+            <button class="pill" data-val="dark-1" aria-pressed="false">Dark-1</button>
+            <button class="pill" data-val="dark-2" aria-pressed="false">Dark-2</button>
+            <button class="pill" data-val="light" aria-pressed="false">White</button>
+            <button class="pill" data-val="bone" aria-pressed="false">Bone</button>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <div class="label">Size</div>
+          <div class="ctrl-row" data-ctrl="size">
+            <button class="pill" data-val="lg" aria-pressed="true">Large</button>
+            <button class="pill" data-val="md" aria-pressed="false">Medium</button>
+            <button class="pill" data-val="sm" aria-pressed="false">Small</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GRID & SPACING ─────────────────────────────────────────────── -->
+<section class="section section--dark-1" id="grid" data-screen-label="07 Grid">
+  <div class="container">
+    <p class="eyebrow"><span class="num">06 ·</span> Grid &amp; spacing / Сітка</p>
+    <h2 class="section-title">12-колонкова сітка<br/>на 8-піксельній основі.</h2>
+    <p class="section-lede">
+      Усі відступи кратні 8. Це робить дизайн ритмічним і дає розробникам один спосіб писати spacing — без магічних чисел і "приблизно так".
+    </p>
+
+    <div class="grid-demo">
+      <div class="label">12 columns · gutter 16 · margin 32</div>
+      <div class="meta">desktop · 1440</div>
+      <div class="cols">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <h3 class="section-title" style="font-size: clamp(28px, 3.5vw, 40px); margin: 96px 0 16px;">Spacing scale · 8pt</h3>
+    <p class="section-lede" style="margin-bottom: 0;">Базова одиниця — 8px. Використовуйте множники від 4 до 64.</p>
+    <div class="spacing-strip">
+      <div class="space-cell"><div class="box" style="height:4px;flex:none;"></div><div class="meta"><b>4</b>space-50</div></div>
+      <div class="space-cell"><div class="box" style="height:8px;flex:none;"></div><div class="meta"><b>8</b>space-100</div></div>
+      <div class="space-cell"><div class="box" style="height:12px;flex:none;"></div><div class="meta"><b>12</b>space-150</div></div>
+      <div class="space-cell"><div class="box" style="height:16px;flex:none;"></div><div class="meta"><b>16</b>space-200</div></div>
+      <div class="space-cell"><div class="box" style="height:24px;flex:none;"></div><div class="meta"><b>24</b>space-300</div></div>
+      <div class="space-cell"><div class="box" style="height:32px;flex:none;"></div><div class="meta"><b>32</b>space-400</div></div>
+      <div class="space-cell"><div class="box" style="height:48px;flex:none;"></div><div class="meta"><b>48</b>space-600</div></div>
+      <div class="space-cell"><div class="box" style="height:64px;flex:none;"></div><div class="meta"><b>64</b>space-800</div></div>
+    </div>
+
+    <h3 class="section-title" style="font-size: clamp(28px, 3.5vw, 40px); margin: 96px 0 16px;">Breakpoints</h3>
+    <p class="section-lede" style="margin-bottom: 0;">Чотири точки злому. Margin сторінки адаптується разом з ними.</p>
+    <div class="breakpoints">
+      <div class="bp-cell">
+        <div class="name">mobile</div>
+        <div class="px">≤ 600</div>
+        <div class="desc">4 col · gutter 12 · margin 20<br/>stacked layout</div>
+      </div>
+      <div class="bp-cell">
+        <div class="name">tablet</div>
+        <div class="px">601–900</div>
+        <div class="desc">8 col · gutter 16 · margin 32<br/>navbar wraps</div>
+      </div>
+      <div class="bp-cell">
+        <div class="name">desktop</div>
+        <div class="px">901–1440</div>
+        <div class="desc">12 col · gutter 16 · margin 32<br/>baseline layout</div>
+      </div>
+      <div class="bp-cell">
+        <div class="name">wide</div>
+        <div class="px">≥ 1441</div>
+        <div class="desc">12 col · gutter 24 · margin 64<br/>max-width 1440</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ICONOGRAPHY ────────────────────────────────────────────────── -->
+<section class="section section--light" id="icons" data-screen-label="08 Icons">
+  <div class="container">
+    <p class="eyebrow"><span class="num">07 ·</span> Iconography / Іконки</p>
+    <h2 class="section-title">Тонкий контур.<br/>Заокруглені краї.</h2>
+    <p class="section-lede">
+      Іконки малюються на сітці 24×24, stroke 1.5px, кути і з'єднання — round. Без заливок: контур має бути єдиною мовою, як і у знаку.
+    </p>
+
+    <div class="icon-grid">
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v8M12 12l-4 3M12 12l4 3M5 18h14"/></svg>
+        <span class="label">mic</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+        <span class="label">session</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h3M9 6v12M15 9v6M21 12h-3"/></svg>
+        <span class="label">tune</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19l4-12 4 8 4-5 4 9"/></svg>
+        <span class="label">analytics</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 10v4M15 8v8"/></svg>
+        <span class="label">levels</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l8 4v6c0 4-3.5 6-8 6s-8-2-8-6V8l8-4z"/></svg>
+        <span class="label">shield</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4 10-10"/></svg>
+        <span class="label">check</span>
+      </div>
+      <div class="ico-cell">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        <span class="label">arrow</span>
+      </div>
+    </div>
+
+    <div class="icon-rules">
+      <div class="icon-rule">
+        <span class="label">01 · Grid</span>
+        <div class="demo">
+          <div class="pixel-grid"></div>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="18" cy="6" r="2.5" fill="#ff6b35" stroke="none"/></svg>
+        </div>
+        <div>
+          <strong>24 × 24 · 8-pt grid</strong>
+          <p>Малюємо у frame 24×24. Padding 2px з усіх боків — щоб іконка не торкалася країв і вирівнювалась з текстом.</p>
+        </div>
+      </div>
+      <div class="icon-rule">
+        <span class="label">02 · Stroke</span>
+        <div class="demo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <strong>Stroke 1.5px · round caps</strong>
+          <p>Однакова товщина по всій іконці. Round caps і round joins. Без fill — тільки контур.</p>
+        </div>
+      </div>
+      <div class="icon-rule">
+        <span class="label">03 · Corners</span>
+        <div class="demo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
+        </div>
+        <div>
+          <strong>Border radius 3</strong>
+          <p>Усі прямокутні форми — radius 3. Це резонує з radius 10 у знаку, але адаптовано під малий розмір.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PHOTOGRAPHY ────────────────────────────────────────────────── -->
+<section class="section section--bone" id="photo" data-screen-label="09 Photography">
+  <div class="container">
+    <p class="eyebrow"><span class="num">08 ·</span> Photography / Фотографія</p>
+    <h2 class="section-title">Темно. Уважно.<br/>З однією точкою світла.</h2>
+    <p class="section-lede">
+      Бренд про голос — а голос існує у тиші. Фотографія Vocalibr будується на глибокому темному кадрі, одному джерелі світла і помаранчевому акценті, що повторює dot у знаку.
+    </p>
+
+    <div class="photo-grid">
+      <div class="photo photo-1"><span class="num">01</span><span class="label">portrait · CX team at work</span></div>
+      <div class="photo photo-2"><span class="num">02</span><span class="label">texture · paper notes &amp; transcripts</span></div>
+      <div class="photo photo-3"><span class="num">03</span><span class="label">object · single screen, dark workspace</span></div>
+      <div class="photo photo-4"><span class="num">04</span><span class="label">scene · workshop &amp; whiteboard</span></div>
+      <div class="photo photo-5"><span class="num">05</span><span class="label">macro · data texture, type</span></div>
+    </div>
+
+    <div class="photo-rules">
+      <div class="yes">
+        <h4>Robimo · Do</h4>
+        <ul>
+          <li>Один напрямок світла — лівий або правий, ніколи фронтальний flash</li>
+          <li>Кадр 70% у тіні, 30% освітлено — простір для дихання</li>
+          <li>Маленький помаранчевий акцент: світловий dot, ламповий гель, predmet</li>
+          <li>Текстура: акустична піна, тканина, мікрофонна сітка крупним планом</li>
+          <li>Портрети — half-light, погляд від камери, природна постановка</li>
+          <li>Постпродакшн: shadows нижче, blacks глибокі, без LUT-ів з кольоровим відливом</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Не робимо · Don't</h4>
+        <ul>
+          <li>Білі студійні фони, hard light з усіх сторін, рекламна "продакшн"-естетика</li>
+          <li>Stock-фото з людьми у навушниках на сонці і подіумі</li>
+          <li>Сатуровані кольори у фоні — синій неон, фіолетові градієнти</li>
+          <li>Колажі і фотомонтажі: знак ніколи не накладається на портрет</li>
+          <li>Селфі-якість, телефонне фото без контролю світла</li>
+          <li>HDR, drama-presets, тіні підтягнуті у плюс</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MOTION ─────────────────────────────────────────────────────── -->
+<section class="section section--dark" id="motion" data-screen-label="10 Motion">
+  <div class="container">
+    <p class="eyebrow"><span class="num">09 ·</span> Motion / Рух</p>
+    <h2 class="section-title">Рух як мова.<br/>Стримана, точна.</h2>
+    <p class="section-lede">
+      Анімації існують щоб пояснювати причинно-наслідкові зв'язки, а не щоб розважати. Швидко, з природним ease, без bounce. Один рух — одна думка.
+    </p>
+
+    <div class="motion-grid">
+      <div class="motion-cell">
+        <span class="label">01 · Pulse</span>
+        <strong>Live state · pulse</strong>
+        <p>Dot пульсує коли активна сесія. 2px scale, 1200ms loop. Тільки на dot — більш ніде.</p>
+        <div class="stage"><div class="dot-anim" style="animation: voc-pop 1200ms cubic-bezier(.4,0,.2,1) infinite;"></div></div>
+      </div>
+      <div class="motion-cell">
+        <span class="label">02 · Progress</span>
+        <strong>Fill · linear progress</strong>
+        <p>Прогрес-індикатори і loading-стани. Заливка зліва направо, swift-out 600ms.</p>
+        <div class="stage"><div class="bar-anim"></div></div>
+      </div>
+      <div class="motion-cell">
+        <span class="label">03 · Pop-in</span>
+        <strong>Entry · scale + dot</strong>
+        <p>Поява елементів зі scale 0.92 → 1, опціонально з акцентом-точкою. Spring 320ms.</p>
+        <div class="stage"><div class="scale-anim"></div></div>
+      </div>
+    </div>
+
+    <table class="motion-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Value</th>
+          <th>Easing</th>
+          <th>Use case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="token">motion/instant</td>
+          <td class="value">120ms</td>
+          <td class="value">ease-out</td>
+          <td class="use">Hover state, focus ring, tooltip fade-in</td>
+        </tr>
+        <tr>
+          <td class="token">motion/swift</td>
+          <td class="value">240ms</td>
+          <td class="value">cubic-bezier(.4,0,.2,1)</td>
+          <td class="use">Button press, tab switch, small reveal</td>
+        </tr>
+        <tr>
+          <td class="token">motion/standard</td>
+          <td class="value">320ms</td>
+          <td class="value">cubic-bezier(.2,.8,.2,1)</td>
+          <td class="use">Modal open, page transition, panel slide</td>
+        </tr>
+        <tr>
+          <td class="token">motion/expressive</td>
+          <td class="value">480ms</td>
+          <td class="value">cubic-bezier(.34,1.2,.64,1)</td>
+          <td class="use">Hero entry, brand moment, insight delivery</td>
+        </tr>
+        <tr>
+          <td class="token">motion/loop-pulse</td>
+          <td class="value">1200ms</td>
+          <td class="value">ease-in-out</td>
+          <td class="use">Live indicator on dot, ingesting feedback state</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ─── CLEAR SPACE ────────────────────────────────────────────────── -->
+<section class="section section--dark-2" data-screen-label="11 Clear space">
+  <div class="container">
+    <p class="eyebrow"><span class="num">10 ·</span> Clear space / Зона захисту</p>
+    <h2 class="section-title">Простір довкола = висота знаку.</h2>
+    <p class="section-lede">
+      Якщо знак 32px — навколо мінімум 32px чистого простору з усіх боків. Усередині цієї зони не може бути жодного елементу: ні тексту, ні зображень, ні іншого логотипу.
+    </p>
+
+    <div class="clearspace">
+      <div class="clearspace-stage">
+        <div class="clearspace-grid"></div>
+        <div class="cs-x"></div>
+        <div class="cs-mark">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>
+        <span class="cs-label top">X = mark height</span>
+        <span class="cs-label right">X = mark height</span>
+      </div>
+      <div>
+        <div class="anatomy-spec">
+          <div class="num">X</div>
+          <div class="body">
+            <strong>Одиниця виміру</strong>
+            X = висота знаку. На favicon (16px) це 16px з усіх боків. На hero (80px) — 80px.
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">↔</div>
+          <div class="body">
+            <strong>Симетрія</strong>
+            Зона захисту однакова з усіх чотирьох боків. Не зменшуйте її щоб втиснути логотип.
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">∅</div>
+          <div class="body">
+            <strong>Заборонено всередині</strong>
+            Інші лого, текст, зображення, кнопки, фонові паттерни. Жодних винятків.
+          </div>
+        </div>
+        <div class="anatomy-spec">
+          <div class="num">→</div>
+          <div class="body">
+            <strong>Орієнтир для верстки</strong>
+            Якщо ви робите макет — почніть з квадрата 3X×3X, де знак — центральний 1X. Це гарантований мінімум.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DO / DON'T ─────────────────────────────────────────────────── -->
+<section class="section section--light" id="donts" data-screen-label="12 Don'ts">
+  <div class="container">
+    <p class="eyebrow"><span class="num">11 ·</span> Don'ts / Що не робити</p>
+    <h2 class="section-title">Список меж.<br/>Без сірих зон.</h2>
+    <p class="section-lede">
+      Шість ситуацій, у яких знак виглядає неправильно. Запам'ятайте їх — це швидше, ніж згадувати правила щоразу.
+    </p>
+
+    <div class="donts">
+      <div class="dont-card">
+        <div class="dont-stage bg-orange">
+          <div class="dont-mark">
+            <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+              <circle class="dot" cx="42" cy="12" r="6.5"/>
+            </svg>
+          </div>
+          <div class="dont-strike"></div>
+        </div>
+        <div class="dont-tag no">Don't · Не</div>
+        <div class="body">
+          <strong>Лого на оранжевому фоні</strong>
+          Помаранчевий — акцент, не носій. Знак губиться і конфліктує з власним dot.
+        </div>
+      </div>
+
+      <div class="dont-card">
+        <div class="dont-stage">
+          <div class="dont-mark gray-dot">
+            <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+              <circle class="dot" cx="42" cy="12" r="6.5"/>
+            </svg>
+          </div>
+          <div class="dont-strike"></div>
+        </div>
+        <div class="dont-tag no">Don't · Не</div>
+        <div class="body">
+          <strong>Сірий або інший dot</strong>
+          Dot завжди <code style="font-family:var(--mono);font-size:.92em;color:var(--orange-primary);">#ff6b35</code>. Це непорушне правило системи.
+        </div>
+      </div>
+
+      <div class="dont-card">
+        <div class="dont-stage">
+          <div class="dont-mark stretched">
+            <svg viewBox="0 0 52 52" class="vmark" preserveAspectRatio="none" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+              <circle class="dot" cx="42" cy="12" r="6.5"/>
+            </svg>
+          </div>
+          <div class="dont-strike"></div>
+        </div>
+        <div class="dont-tag no">Don't · Не</div>
+        <div class="body">
+          <strong>Розтягувати знак</strong>
+          Знак — квадратний. Не змінюйте пропорції щоб втиснути в композицію.
+        </div>
+      </div>
+
+      <div class="dont-card">
+        <div class="dont-stage">
+          <div class="dont-mark tilted">
+            <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+              <circle class="dot" cx="42" cy="12" r="6.5"/>
+            </svg>
+          </div>
+          <div class="dont-strike"></div>
+        </div>
+        <div class="dont-tag no">Don't · Не</div>
+        <div class="body">
+          <strong>Поворот знаку</strong>
+          Орієнтація фіксована: dot завжди у верхньому правому куті.
+        </div>
+      </div>
+
+      <div class="dont-card">
+        <div class="dont-stage">
+          <div class="dont-mark" style="position:relative;">
+            <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="dont-strike"></div>
+        </div>
+        <div class="dont-tag no">Don't · Не</div>
+        <div class="body">
+          <strong>Знак без dot</strong>
+          Це вже не Vocalibr. Dot — структурна частина, а не прикраса.
+        </div>
+      </div>
+
+      <div class="dont-card">
+        <div class="dont-stage bg-light">
+          <div style="font-family:var(--sans);font-weight:700;font-size:32px;letter-spacing:0;color:var(--black);text-transform:uppercase;">VOCALIBR</div>
+          <div class="dont-strike"></div>
+        </div>
+        <div class="dont-tag no">Don't · Не</div>
+        <div class="body">
+          <strong>Bold або UPPERCASE</strong>
+          Wordmark тільки lowercase, weight 500. Bold (600+) ламає тональність.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── APPLICATIONS ───────────────────────────────────────────────── -->
+<section class="section section--bone" id="applications" data-screen-label="13 Applications">
+  <div class="container">
+    <p class="eyebrow"><span class="num">12 ·</span> Applications / Застосування</p>
+    <h2 class="section-title">Як система живе<br/>у реальних інтерфейсах.</h2>
+    <p class="section-lede">
+      Шість контекстів — від favicon до повного дашборду. Кожен — приклад правильного вибору версії, розміру і фону.
+    </p>
+
+    <div class="apps">
+      <!-- Favicon / browser -->
+      <div class="app-card app-favicon">
+        <div class="stage" style="background:#222">
+          <div class="browser-tab">
+            <div class="tabbar">
+              <div class="tab">
+                <svg viewBox="0 0 52 52" class="fav vmark" aria-hidden="true">
+                  <rect x="3" y="3" width="46" height="46" rx="7" stroke="#ffffff" stroke-width="5"/>
+                  <circle class="dot" cx="42" cy="12" r="6.5"/>
+                </svg>
+                <span>vocalibr</span>
+                <span class="x">×</span>
+              </div>
+              <div class="tab inactive">github.com</div>
+              <div class="tab inactive">notion</div>
+            </div>
+            <div class="body"></div>
+            <div class="url-bar">vocalibr.app</div>
+          </div>
+        </div>
+        <div class="footer"><span><b>Browser favicon</b><br/>16 × 16</span><span>v · mono dark</span></div>
+      </div>
+
+      <!-- iOS app icon -->
+      <div class="app-card app-appicon">
+        <div class="stage" style="background:linear-gradient(160deg,#3a3030,#0a0a0a)">
+          <div class="ios-grid">
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app featured">
+              <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ff6b35" stroke-width="2.5"/>
+                <circle class="dot" cx="42" cy="12" r="6.5"/>
+              </svg>
+            </div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+            <div class="ios-app"><span class="label">·</span></div>
+          </div>
+        </div>
+        <div class="footer"><span><b>iOS app icon</b><br/>1024 × 1024</span><span>v · orange</span></div>
+      </div>
+
+      <!-- Social square -->
+      <div class="app-card app-social-square">
+        <div class="stage" style="background:#f1eee9">
+          <div class="social-square">
+            <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+              <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2.5"/>
+              <circle class="dot" cx="42" cy="12" r="6.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="footer"><span><b>Avatar 1:1</b><br/>square crop</span><span>v · mono dark</span></div>
+      </div>
+
+      <!-- Social banner -->
+      <div class="app-card app-social-banner">
+        <div class="stage" style="background:#f1eee9">
+          <div class="social-banner">
+            <div class="lockup">
+              <div class="lockup-mark" style="width:64px;height:64px">
+                <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                  <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ff6b35" stroke-width="2"/>
+                  <circle class="dot" cx="42" cy="12" r="6.5"/>
+                </svg>
+              </div>
+              <div class="lockup-word" style="font-size:56px">
+                <span style="color:#ff6b35;">voc</span><span style="color:rgba(255,255,255,.3);">alibr</span>
+              </div>
+            </div>
+            <div class="stripe"></div>
+          </div>
+        </div>
+        <div class="footer"><span><b>Banner 2:1</b><br/>cover image</span><span>v · orange dark</span></div>
+      </div>
+
+      <!-- Navbar -->
+      <div class="app-card app-navbar">
+        <div class="stage" style="background:#0a0a0a; padding:0;">
+          <div class="navbar-mock">
+            <div class="bar">
+              <div class="logo">
+                <div class="mark">
+                  <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                    <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2.5"/>
+                    <circle class="dot" cx="42" cy="12" r="6.5"/>
+                  </svg>
+                </div>
+                <span><span class="voc">voc</span><span class="alibr">alibr</span></span>
+              </div>
+              <div class="links">
+                <span>Product</span>
+                <span>Voices</span>
+                <span>Pricing</span>
+                <span>Docs</span>
+              </div>
+              <div class="cta">Try it free</div>
+            </div>
+            <div class="hero-sample">
+              <h2>Hear what your<br/>customers actually mean.</h2>
+              <p>AI-driven Voice of Customer analytics. Surface signal from tickets, reviews, NPS and chats — automatically.</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>Web hero · navbar</b><br/>1440 wide</span><span>knак 32 / mono dark</span></div>
+      </div>
+
+      <!-- Business card -->
+      <div class="app-card app-card-merch">
+        <div class="stage" style="background:#222">
+          <div class="bcard-stack">
+            <div class="top">
+              <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                <rect x="3" y="3" width="46" height="46" rx="10" stroke="#0a0a0a" stroke-width="3"/>
+                <circle class="dot" cx="42" cy="12" r="6.5"/>
+              </svg>
+              <span><span style="color:#0a0a0a;">voc</span><span style="color:#c8c8c8;">alibr</span></span>
+            </div>
+            <div class="info">
+              <b>Іван Бровченко</b>
+              Founder, Brand<br/>
+              ivan@vocalibr.app · +380 50 000 0000<br/>
+              vocalibr.app
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>Business card</b><br/>85 × 50 mm</span><span>v · mono light</span></div>
+      </div>
+
+      <!-- Dashboard -->
+      <div class="app-card app-dashboard">
+        <div class="stage" style="background:#0a0a0a; padding:0;">
+          <div class="dash">
+            <aside class="dash-side">
+              <div class="brand">
+                <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                  <rect x="3" y="3" width="46" height="46" rx="9" stroke="#ffffff" stroke-width="3"/>
+                  <circle class="dot" cx="42" cy="12" r="6.5"/>
+                </svg>
+                <span><span style="color:#fff;">voc</span><span style="color:rgba(255,255,255,.28);">alibr</span></span>
+              </div>
+              <div class="nav">
+                <div class="item active"><span class="ico"></span>Signals</div>
+                <div class="item"><span class="ico"></span>Themes</div>
+                <div class="item"><span class="ico"></span>Sentiment</div>
+                <div class="item"><span class="ico"></span>Exports</div>
+                <div class="item"><span class="ico"></span>Team</div>
+                <div class="item"><span class="ico"></span>Settings</div>
+              </div>
+            </aside>
+            <main class="dash-main">
+              <div class="topbar">
+                <h3>Customer signals / Last 30 days</h3>
+                <span class="badge">live · 03 sources</span>
+              </div>
+              <div class="dash-stat-row">
+                <div class="dash-stat"><div class="l">Mentions</div><div class="v">12,840</div><div class="delta">↑ 18.2%</div></div>
+                <div class="dash-stat"><div class="l">Avg sentiment</div><div class="v">+0.42</div><div class="delta">↑ 0.08</div></div>
+                <div class="dash-stat"><div class="l">Themes detected</div><div class="v">68</div><div class="delta">↑ 12 new</div></div>
+                <div class="dash-stat"><div class="l">Output mins</div><div class="v">31,540</div><div class="delta">↑ 21.7%</div></div>
+              </div>
+              <div class="dash-chart">
+                <h4>Session volume · last 14 days</h4>
+                <div class="chart">
+                  <div class="bar" style="height:32%"></div>
+                  <div class="bar" style="height:54%"></div>
+                  <div class="bar" style="height:42%"></div>
+                  <div class="bar" style="height:68%"></div>
+                  <div class="bar" style="height:51%"></div>
+                  <div class="bar" style="height:64%"></div>
+                  <div class="bar" style="height:78%"></div>
+                  <div class="bar" style="height:58%"></div>
+                  <div class="bar" style="height:71%"></div>
+                  <div class="bar" style="height:48%"></div>
+                  <div class="bar" style="height:82%"></div>
+                  <div class="bar" style="height:64%"></div>
+                  <div class="bar featured" style="height:96%"></div>
+                  <div class="bar" style="height:60%"></div>
+                </div>
+              </div>
+            </main>
+          </div>
+        </div>
+        <div class="footer"><span><b>Product UI · Dashboard</b><br/>1440 wide</span><span>знак 28 / mono dark · accent у єдиному state</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SMM ────────────────────────────────────────────────────────── -->
+<section class="section section--dark" id="smm" data-screen-label="14 SMM">
+  <div class="container">
+    <p class="eyebrow"><span class="num">13 ·</span> Social media / SMM</p>
+    <h2 class="section-title">Бренд у соціальних<br/>мережах.</h2>
+    <p class="section-lede">
+      Шість шаблонів для Instagram, X, LinkedIn, YouTube і OG-шейру. Спільні правила: чорний фон, один акцент на пост, dot завжди на місці. Wordmark або у композиції, або у підписі — ніколи разом.
+    </p>
+
+    <div class="smm">
+      <!-- Instagram post 1:1 -->
+      <div class="smm-card smm-ig-post">
+        <div class="stage">
+          <div class="ig-post">
+            <div class="top">
+              <span class="dot-i"></span>
+              <span>Instagram · 01 / 06</span>
+            </div>
+            <div class="headline">
+              Кожен фідбек<br/>має <span class="acc">причину.</span><br/>Знайди її.
+            </div>
+            <div class="bottom">
+              <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                <rect x="3" y="3" width="46" height="46" rx="9" stroke="#ffffff" stroke-width="3"/>
+                <circle class="dot" cx="42" cy="12" r="6.5"/>
+              </svg>
+              <span>vocalibr.app</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>Instagram post</b>1080 × 1080</span><span>1:1 · feed</span></div>
+      </div>
+
+      <!-- Instagram story 9:16 -->
+      <div class="smm-card smm-ig-story">
+        <div class="stage">
+          <div class="ig-story">
+            <div class="progress">
+              <span class="active"></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="handle">
+              <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                <rect x="3" y="3" width="46" height="46" rx="9" stroke="#ffffff" stroke-width="3"/>
+                <circle class="dot" cx="42" cy="12" r="6.5"/>
+              </svg>
+              vocalibr
+            </div>
+            <div class="stack">
+              <div class="label-tag">new · 03</div>
+              <div class="head">10k тикетів<br/>→ один<br/><span class="acc">insight.</span></div>
+            </div>
+            <div class="meta-bot">
+              <span>swipe up</span>
+              <span>↑</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>IG / TikTok story</b>1080 × 1920</span><span>9:16</span></div>
+      </div>
+
+      <!-- X / Twitter -->
+      <div class="smm-card smm-x">
+        <div class="stage" style="background:linear-gradient(160deg,#1a1a1a,#0a0a0a);padding:28px;">
+          <div class="x-card">
+            <div class="head">
+              <div class="av">
+                <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                  <rect x="3" y="3" width="46" height="46" rx="9" stroke="#ffffff" stroke-width="3"/>
+                  <circle class="dot" cx="42" cy="12" r="6.5"/>
+                </svg>
+              </div>
+              <div class="who">
+                <div class="name">vocalibr <span class="dot-i"></span></div>
+                <div class="handle">@vocalibr · 1h</div>
+              </div>
+            </div>
+            <div class="body">
+              Brand system v1.0 — затверджено. <br/>One accent. One dot. <span class="acc">Always #ff6b35.</span>
+            </div>
+            <div class="preview">
+              <div class="lockup">
+                <div class="lockup-mark">
+                  <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                    <rect x="3" y="3" width="46" height="46" rx="9" stroke="#ff6b35" stroke-width="2"/>
+                    <circle class="dot" cx="42" cy="12" r="6.5"/>
+                  </svg>
+                </div>
+                <div class="lockup-word"><span style="color:#ff6b35;">voc</span><span style="color:rgba(255,255,255,.3);">alibr</span></div>
+              </div>
+              <span class="domain">vocalibr.app/brand</span>
+            </div>
+            <div class="stats">
+              <span><b>248</b> reposts</span>
+              <span><b>1.2k</b> likes</span>
+              <span><b>34k</b> views</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>X / Twitter card</b>1200 × 600</span><span>summary_large_image</span></div>
+      </div>
+
+      <!-- LinkedIn banner -->
+      <div class="smm-card smm-li-banner">
+        <div class="stage" style="background:#222;padding:32px;">
+          <div class="li-banner">
+            <div class="left">
+              <span class="label-tag">we're hiring · 03 ролі</span>
+              <h3 class="head">Hear the <span class="acc">voice</span> behind<br/>every customer signal.</h3>
+              <div class="sub">AI-driven Voice of Customer for product, CX and growth teams. Київ · Berlin · remote.</div>
+            </div>
+            <div class="right">
+              <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2.5"/>
+                <circle class="dot" cx="42" cy="12" r="6.5"/>
+              </svg>
+              <div class="url">vocalibr.app / careers</div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>LinkedIn cover</b>1584 × 396</span><span>4:1 · profile / company</span></div>
+      </div>
+
+      <!-- YouTube thumbnail -->
+      <div class="smm-card smm-yt">
+        <div class="stage" style="background:#222;padding:24px;">
+          <div class="yt-thumb">
+            <div class="top">
+              <span class="ep">EP · 04</span>
+              <span>vocalibr / signals</span>
+            </div>
+            <div class="title">
+              From 10k tickets<br/>to <span class="acc">3 themes</span><br/>in 60 seconds.
+            </div>
+            <div class="bottom">
+              <div class="lockup">
+                <div class="lockup-mark">
+                  <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                    <rect x="3" y="3" width="46" height="46" rx="9" stroke="#ffffff" stroke-width="3"/>
+                    <circle class="dot" cx="42" cy="12" r="6.5"/>
+                  </svg>
+                </div>
+                <div class="lockup-word"><span style="color:#fff;">voc</span><span style="color:rgba(255,255,255,.28);">alibr</span></div>
+              </div>
+              <span class="duration">14:02</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>YouTube thumb</b>1280 × 720</span><span>16:9 · episode</span></div>
+      </div>
+
+      <!-- OG card -->
+      <div class="smm-card smm-og">
+        <div class="stage" style="background:#222;padding:32px;">
+          <div class="og-card">
+            <div class="meta-row">
+              <div class="lockup">
+                <div class="lockup-mark">
+                  <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+                    <rect x="3" y="3" width="46" height="46" rx="10" stroke="#ffffff" stroke-width="2.5"/>
+                    <circle class="dot" cx="42" cy="12" r="6.5"/>
+                  </svg>
+                </div>
+                <div class="lockup-word"><span style="color:#fff;">voc</span><span style="color:rgba(255,255,255,.28);">alibr</span></div>
+              </div>
+              <span>Brand system · v1.0</span>
+            </div>
+            <h3 class="head">
+              <span class="acc">One accent.</span> One dot.<br/>
+              <span class="muted">Always #ff6b35.</span>
+            </h3>
+            <div class="url-row">
+              <span><b>vocalibr.app</b> / brand</span>
+              <span>03 · 05 · 2026</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span><b>Open Graph card</b>1200 × 630</span><span>1.91:1 · link share</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMPONENTS ─────────────────────────────────────────────────── -->
+<section class="section section--dark-1" id="components" data-screen-label="15 Components">
+  <div class="container">
+    <p class="eyebrow"><span class="num">14 ·</span> Components / Компоненти</p>
+    <h2 class="section-title">UI-набір на основі<br/>тих самих токенів.</h2>
+    <p class="section-lede">
+      Це не повний UI-кіт — це довіска, яка показує як токени складаються в реальні елементи. Кнопки, поля, чіпи, картки.
+    </p>
+
+    <div class="components">
+      <div class="comp-cell">
+        <div class="l">Buttons</div>
+        <div class="comp-row">
+          <button class="btn btn-primary">Try Vocalibr</button>
+          <button class="btn btn-secondary">Read docs</button>
+          <button class="btn btn-ghost">Learn more →</button>
+        </div>
+        <div class="comp-row">
+          <button class="btn btn-primary" style="opacity:.55;cursor:not-allowed;">Disabled</button>
+          <button class="btn btn-primary" style="background:var(--orange-light);">Hover state</button>
+          <button class="btn btn-primary" style="background:var(--orange-dark);">Pressed state</button>
+        </div>
+      </div>
+
+      <div class="comp-cell">
+        <div class="l">Form input</div>
+        <div class="comp-row">
+          <input class="input" placeholder="your@email.com" />
+        </div>
+        <div class="comp-row">
+          <input class="input" value="ivan@vocalibr.app" style="border-color:var(--orange-primary);" />
+        </div>
+        <div class="comp-row" style="font-family:var(--mono);font-size:11px;color:var(--gray-3);">
+          default · focused · uses orange-primary border
+        </div>
+      </div>
+
+      <div class="comp-cell">
+        <div class="l">Tags &amp; chips</div>
+        <div class="comp-row">
+          <span class="tag">live</span>
+          <span class="tag">accent</span>
+          <span class="tag neutral">mono</span>
+          <span class="tag neutral">draft</span>
+        </div>
+        <div class="comp-row">
+          <span class="tag">↑ 12.4% MoM</span>
+          <span class="tag neutral">v1.0 · approved</span>
+        </div>
+      </div>
+
+      <div class="comp-cell">
+        <div class="l">Feature card</div>
+        <div class="comp-row" style="align-items:stretch;">
+          <div class="fcard">
+            <div class="acc"></div>
+            <h5>Theme detection</h5>
+            <p>Cluster thousands of unsolicited mentions into the three themes that drive your CX score.</p>
+          </div>
+          <div class="fcard">
+            <div class="acc" style="background:transparent;"></div>
+            <h5>Session export</h5>
+            <p>Multitrack stems, mastered loudness, ready for any DAW you ship in.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────────────────────── -->
+<footer class="footer" data-screen-label="16 Footer">
+  <div class="footer-inner">
+    <div>
+      <div class="big">
+        <span class="voc">voc</span><span class="alibr">alibr</span>
+      </div>
+      <p>Brand system v1.0 · approved 03 · 05 · 2026. Single source of truth для всіх дотиків бренду — від favicon до hero.</p>
+    </div>
+    <div>
+      <h4>Files / Файли</h4>
+      <ul>
+        <li><a>Figma library</a></li>
+        <li><a>SVG mark · 4 ver</a></li>
+        <li><a>SVG wordmark · 4 ver</a></li>
+        <li><a>Social PNG kit</a></li>
+        <li><a>Favicon .ico / .svg</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Sections / Розділи</h4>
+      <ul>
+        <li><a href="#color">01 · Color</a></li>
+        <li><a href="#type">02 · Typography</a></li>
+        <li><a href="#mark">03 · Logomark</a></li>
+        <li><a href="#wordmark">04 · Wordmark</a></li>
+        <li><a href="#lockup">05 · Lockups</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacts / Контакти</h4>
+      <ul>
+        <li><a>brand@vocalibr.app</a></li>
+        <li><a>Іван — стратегія</a></li>
+        <li><a>Олег — Figma library</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Vocalibr · all rights reserved</span>
+    <span>One accent. One dot. Always #ff6b35.</span>
+  </div>
+</footer>
+
+<!-- ─── SCRIPTS ────────────────────────────────────────────────────── -->
+<script>
+  /* ── Color tokens data ─────────────────────────────── */
+  const PALETTE = [
+    { cat: 'Primary accent / Помаранчевий акцент', kind: 'header', meta: 'orange · 5 tokens' },
+    { name: 'orange-primary', hex: '#ff6b35', use: 'dot у знаку, voc у orange-версії, один акцентний елемент на сторінці' },
+    { name: 'orange-light', hex: '#ff9a6c', use: 'hover · secondary accent' },
+    { name: 'orange-dark', hex: '#cc4a1a', use: 'pressed state' },
+    { name: 'orange-tint-10', hex: 'rgba(255,107,53,.10)', cssVal: 'rgba(255,107,53,.10)', use: 'backgrounds, tags' },
+    { name: 'orange-tint-20', hex: 'rgba(255,107,53,.20)', cssVal: 'rgba(255,107,53,.20)', use: 'borders' },
+
+    { cat: 'Monochrome scale / Монохромна шкала', kind: 'header', meta: 'neutrals · 11 tokens' },
+    { name: 'black', hex: '#0a0a0a', use: 'основний фон' },
+    { name: 'dark-1', hex: '#111111', use: 'вторинний фон, секції' },
+    { name: 'dark-2', hex: '#1a1a1a', use: 'картки, контейнери' },
+    { name: 'dark-3', hex: '#222222', use: 'підвищені картки' },
+    { name: 'dark-4', hex: '#2a2a2a', use: 'межі на темному' },
+    { name: 'gray-1', hex: '#404040', use: 'заборонені зони' },
+    { name: 'gray-2', hex: '#707070', use: 'placeholder текст' },
+    { name: 'gray-3', hex: '#a0a0a0', use: 'alibr на темному фоні' },
+    { name: 'gray-4', hex: '#c8c8c8', use: 'alibr на світлому, вторинний текст' },
+    { name: 'gray-5', hex: '#e8e8e8', use: 'межі на світлому' },
+    { name: 'white', hex: '#f8f8f8', use: 'основний текст на темному, світлий фон' },
+  ];
+
+  const grid = document.getElementById('swatches');
+  PALETTE.forEach(item => {
+    if (item.kind === 'header') {
+      const h = document.createElement('div');
+      h.className = 'swatch swatch-category';
+      h.innerHTML = `
+        <div class="swatch-category-title">
+          <span class="num">${item.cat.includes('Primary') ? '01' : '02'} ·</span>
+          <span class="label">${item.cat}</span>
+          <span class="meta">${item.meta}</span>
+        </div>`;
+      grid.appendChild(h);
+      return;
+    }
+    const el = document.createElement('button');
+    el.className = 'swatch';
+    el.type = 'button';
+    el.dataset.hex = item.hex;
+    el.innerHTML = `
+      <div class="swatch-chip" style="background:${item.cssVal || item.hex};${item.name === 'white' ? 'border:1px solid var(--gray-5);' : ''}"></div>
+      <div class="swatch-name">brand/${item.name.startsWith('orange') ? 'orange' : 'mono'}/${item.name}</div>
+      <div class="swatch-hex">${item.hex.toUpperCase()}<span class="copy-state">copied ✓</span></div>
+      <div class="swatch-use">${item.use}</div>
+    `;
+    el.addEventListener('click', () => {
+      navigator.clipboard?.writeText(item.hex);
+      el.classList.add('copied');
+      setTimeout(() => el.classList.remove('copied'), 1400);
+    });
+    grid.appendChild(el);
+  });
+
+  /* ── Lockup builder ────────────────────────────────── */
+  const builder = {
+    layout: 'horizontal',
+    variant: 'orange',
+    bg: 'dark',
+    size: 'lg',
+  };
+
+  const stage = document.getElementById('builder-stage');
+  const lockup = document.getElementById('builder-lockup');
+
+  function variantColors(variant, bg) {
+    const isLight = (bg === 'light' || bg === 'bone');
+    if (variant === 'orange') {
+      return { stroke: '#ff6b35', voc: '#ff6b35', alibr: isLight ? '#0a0a0a' : 'rgba(255,255,255,.3)' };
+    }
+    if (variant === 'mono') {
+      return { stroke: isLight ? '#0a0a0a' : '#ffffff', voc: isLight ? '#0a0a0a' : '#ffffff', alibr: isLight ? '#c8c8c8' : 'rgba(255,255,255,.28)' };
+    }
+    if (variant === 'subtle') {
+      return { stroke: isLight ? 'rgba(10,10,10,.15)' : 'rgba(255,255,255,.15)', voc: isLight ? 'rgba(10,10,10,.55)' : 'rgba(255,255,255,.55)', alibr: isLight ? 'rgba(10,10,10,.25)' : 'rgba(255,255,255,.18)' };
+    }
+  }
+
+  function sizeMetrics(size) {
+    return ({ lg: { mark: 96, word: 92, gap: 16 }, md: { mark: 64, word: 60, gap: 12 }, sm: { mark: 36, word: 32, gap: 8 } })[size];
+  }
+
+  function renderBuilder() {
+    stage.dataset.bg = builder.bg;
+    const c = variantColors(builder.variant, builder.bg);
+    const s = sizeMetrics(builder.size);
+
+    let markHTML = '';
+    let wordHTML = '';
+
+    if (builder.layout !== 'word-only') {
+      markHTML = `
+        <div class="lockup-mark" style="width:${s.mark}px;height:${s.mark}px;">
+          <svg viewBox="0 0 52 52" class="vmark" aria-hidden="true">
+            <rect x="3" y="3" width="46" height="46" rx="10" stroke="${c.stroke}" stroke-width="${builder.size === 'sm' ? 3 : 2}"/>
+            <circle class="dot" cx="42" cy="12" r="6.5"/>
+          </svg>
+        </div>`;
+    }
+
+    if (builder.layout !== 'mark-only') {
+      wordHTML = `
+        <div class="lockup-word" style="font-size:${s.word}px;">
+          <span style="color:${c.voc};">voc</span><span style="color:${c.alibr};">alibr</span>
+        </div>`;
+    }
+
+    if (builder.layout === 'vertical') {
+      lockup.dataset.layout = 'vertical';
+      lockup.style.gap = s.gap + 'px';
+    } else {
+      lockup.dataset.layout = 'horizontal';
+      lockup.style.gap = s.gap + 'px';
+    }
+
+    lockup.innerHTML = markHTML + wordHTML;
+  }
+
+  document.querySelectorAll('.builder-controls .ctrl-row').forEach(row => {
+    const ctrl = row.dataset.ctrl;
+    row.querySelectorAll('.pill').forEach(b => {
+      b.addEventListener('click', () => {
+        builder[ctrl] = b.dataset.val;
+        row.querySelectorAll('.pill').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        renderBuilder();
+      });
+    });
+  });
+
+  renderBuilder();
+</script>
+
+</body>
+</html>
